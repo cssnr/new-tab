@@ -18,6 +18,8 @@ const isFocused = ref(false)
 const containerRef = ref<HTMLElement | null>(null)
 const textRef = useTemplateRef<HTMLTextAreaElement>('textRef')
 
+const openUrl = (url?: string) => location.replace(url!)
+
 async function processForm(e: Event) {
   console.debug('processForm:', e)
   try {
@@ -31,13 +33,14 @@ async function processForm(e: Event) {
   }
 }
 
-async function retardAI(e: MouseEvent) {
+async function retardAI(e: MouseEvent | KeyboardEvent) {
   console.debug('retardAI', e)
   try {
     const value = textRef.value?.value
     console.debug('value:', value)
-    if (textRef.value?.value) await chrome.storage.local.set({ claudePrompt: value })
-    await chrome.tabs.update({ url: 'https://claude.ai/new' })
+    if (value?.trim()) await chrome.storage.local.set({ claudePrompt: value })
+    // await chrome.tabs.update({ url: 'https://claude.ai/new' })
+    openUrl('https://claude.ai/new')
   } catch (e) {
     if (e instanceof Error) showToast(e.message, 'danger')
   }
@@ -65,6 +68,8 @@ onUnmounted(() => document.removeEventListener('mousedown', onDocumentMousedown)
           placeholder="Leave a comment here"
           id="floatingTextarea"
           @focus="isFocused = true"
+          @keydown.ctrl.enter.prevent="retardAI"
+          @keydown.meta.enter.prevent="retardAI"
         />
         <label for="floatingTextarea">Questions, Comments or Concerns about Ralf?</label>
       </div>
