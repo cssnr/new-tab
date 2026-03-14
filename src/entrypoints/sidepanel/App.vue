@@ -16,7 +16,7 @@ import PermsCheck from '@/components/PermsCheck.vue'
   <main class="flex-grow-1 overflow-auto p-1">
     <div class="d-grid gap-2">
       <PermsCheck />
-      <SearchBox />
+      <SearchBox :new-tab="true" :expanded-rows="4" />
       <ButtonsList :side-button="false" />
     </div>
   </main>

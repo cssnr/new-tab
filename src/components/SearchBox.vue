@@ -3,16 +3,18 @@ import { ref, onMounted, onUnmounted } from 'vue'
 
 const props = withDefaults(
   defineProps<{
+    newTab?: boolean
     closeWindow?: boolean
     expandedRows?: number
   }>(),
   {
+    newTab: false,
     closeWindow: false,
     expandedRows: 10,
   },
 )
 
-console.debug('closeWindow:', props.closeWindow)
+console.debug('newTab:', props.newTab)
 
 const isFocused = ref(false)
 const containerRef = ref<HTMLElement | null>(null)
@@ -27,7 +29,10 @@ async function processForm(e: Event) {
     e.preventDefault()
     const input = target[0] as HTMLInputElement
     console.debug('target.value', input.value)
-    await chrome.search.query({ text: input.value, disposition: 'CURRENT_TAB' })
+
+    const disposition = props.newTab ? 'NEW_TAB' : 'CURRENT_TAB'
+    await chrome.search.query({ text: input.value, disposition })
+    if (props.closeWindow) window.close()
   } catch (e) {
     if (e instanceof Error) showToast(e.message, 'danger')
   }
@@ -40,7 +45,11 @@ async function retardAI(e: MouseEvent | KeyboardEvent) {
     console.debug('value:', value)
     if (value?.trim()) await chrome.storage.local.set({ claudePrompt: value })
     // await chrome.tabs.update({ url: 'https://claude.ai/new' })
-    openUrl('https://claude.ai/new')
+    if (props.newTab) {
+      await chrome.tabs.create({ url: 'https://claude.ai/new' })
+    } else {
+      openUrl('https://claude.ai/new')
+    }
   } catch (e) {
     if (e instanceof Error) showToast(e.message, 'danger')
   }

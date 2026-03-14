@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { isFirefox, isMobile } from '@/utils/system.ts'
-// import { getOwnerRepo } from '@/utils/github.ts'
-
 import ToastAlerts from '@/components/ToastAlerts.vue'
 import PanelHeader from '@/components/PanelHeader.vue'
 import OptionsForm from '@/components/OptionsForm.vue'
-import SearchBox from '@/components/SearchBox.vue'
 import ButtonsList from '@/components/ButtonsList.vue'
 import PermsCheck from '@/components/PermsCheck.vue'
-// import BadgesView from '@/components/BadgesView.vue'
+import SearchBox from '@/components/SearchBox.vue'
 
 let isBrowser = isFirefox ? '420px' : null
 const width = computed(() => (isMobile ? '100%' : isBrowser))
@@ -48,7 +45,7 @@ console.log('width:', width.value)
 
     <div class="d-grid gap-2 p-1">
       <PermsCheck />
-      <SearchBox :close-window="true" />
+      <SearchBox :close-window="true" :new-tab="true" :expanded-rows="2" />
       <ButtonsList :close-window="true" :popup-button="false" />
     </div>
 
@@ -59,7 +56,7 @@ console.log('width:', width.value)
     <!--  <hr class="my-0" />-->
     <!--  <OptionsForm :close-window="true" :compact="true" class="p-2" />-->
     <!--</div>-->
-    <OptionsForm :close-window="true" :compact="true" class="p-2" />
+    <OptionsForm :compact="true" class="p-2" />
 
     <ToastAlerts />
   </div>

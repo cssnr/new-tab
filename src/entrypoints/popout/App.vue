@@ -39,13 +39,13 @@ useTitle('Panel')
   <main class="flex-grow-1 overflow-auto p-1">
     <div class="d-grid gap-2">
       <PermsCheck />
-      <SearchBox />
+      <SearchBox :new-tab="true" :expanded-rows="4" />
       <ButtonsList :popup-button="false" :panel-button="false" :side-button="false" />
     </div>
   </main>
 
   <footer class="flex-shrink-0">
-    <OptionsForm :close-window="true" :compact="true" class="p-2" />
+    <OptionsForm :compact="true" class="p-2" />
     <PanelFooter />
   </footer>
 
