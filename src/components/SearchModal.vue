@@ -16,13 +16,17 @@ const url = ref('')
 const modalEl = ref<HTMLElement | null>(null)
 let bsModal: Modal | null = null
 
+console.debug('%cLOADED: SearchModal.vue', 'color: Orange')
+
 onMounted(() => {
+  console.debug('%cMOUNTED: SearchModal.vue', 'color: Lime')
   if (modalEl.value) {
     bsModal = new Modal(modalEl.value)
   }
 })
 
 onUnmounted(() => {
+  console.debug('%cUNMOUNTED: SearchModal.vue', 'color: Yellow')
   bsModal?.dispose()
 })
 

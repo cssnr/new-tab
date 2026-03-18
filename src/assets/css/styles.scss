@@ -3,6 +3,12 @@
 @import 'bootstrap/scss/bootstrap';
 //@import 'bootswatch/dist/zephyr/bootswatch';
 
+@supports (scrollbar-gutter: stable both-edges) {
+    body.modal-open {
+        padding-right: 0 !important;
+    }
+}
+
 .icon {
     width: 16px;
     height: 16px;

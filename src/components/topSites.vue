@@ -5,6 +5,8 @@ import { openUrl } from '@/utils'
 
 const topSites = ref<browser.topSites.MostVisitedURL[] | chrome.topSites.MostVisitedURL[]>([])
 
+console.debug('%cLOADED: topSites.vue', 'color: Orange')
+
 function getFaviconUrl(site: chrome.topSites.MostVisitedURL): string {
   // console.log('getFaviconUrl:', site)
   if (site.favicon) return site.favicon
@@ -24,6 +26,7 @@ function getTopSites() {
 }
 
 onMounted(async () => {
+  console.debug('%cMOUNTED: topSites.vue', 'color: Lime')
   topSites.value = await getTopSites()
   console.log('topSites.value:', topSites.value)
 })

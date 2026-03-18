@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { openUrl } from '@/utils'
-import claudeIcon from '@/assets/icons/claude.svg?raw'
 import { Search, deleteSearch, getSearches, addSearch, updateSearch } from '@/utils/searches.ts'
+import camelCase from 'camelcase'
 import * as icons from 'simple-icons'
+import claudeIcon from '@/assets/icons/claude.svg?raw'
 import SearchModal from '@/components/SearchModal.vue'
 
 const props = withDefaults(
@@ -19,7 +20,7 @@ const props = withDefaults(
   },
 )
 
-console.debug('newTab:', props.newTab)
+console.debug('%cLOADED: SearchBox.vue', 'color: Orange', 'props', props)
 
 const isFocused = ref(false)
 const containerRef = ref<HTMLElement | null>(null)
@@ -40,8 +41,12 @@ chrome.storage.sync.onChanged.addListener((changes) => {
 // function onChanged(changes: object) {}
 
 function getIcon(slug: string) {
+  console.log('getIcon:', slug)
   try {
-    return icons[('si' + slug.charAt(0).toUpperCase() + slug.slice(1)) as keyof typeof icons].svg
+    const name = camelCase(slug, { pascalCase: true })
+    console.log('name:', name)
+    return icons[`si${name}` as keyof typeof icons]?.svg
+    // return icons[('si' + slug.charAt(0).toUpperCase() + slug.slice(1)) as keyof typeof icons].svg
   } catch (e) {
     return ''
   }
@@ -161,12 +166,14 @@ function onDocumentMousedown(e: MouseEvent) {
 }
 
 onMounted(async () => {
+  console.debug('%cMOUNTED: SearchBox.vue', 'color: Lime', 'props', props)
   document.addEventListener('mousedown', onDocumentMousedown)
   const searches = await getSearches()
   console.debug('searches:', searches)
   searchesRef.value = searches
 })
 onUnmounted(() => {
+  console.debug('%cUNMOUNTED: SearchBox.vue', 'color: Yellow', 'props', props)
   document.removeEventListener('mousedown', onDocumentMousedown)
 })
 </script>

@@ -2,7 +2,6 @@
 import { useTitle } from '@/composables/useTitle.ts'
 import { copySupport } from '@/utils/options.ts'
 import { isFirefox, isMobile } from '@/utils/system.ts'
-
 import BackToTop from '@/components/BackToTop.vue'
 import ToastAlerts from '@/components/ToastAlerts.vue'
 import OptionsForm from '@/components/OptionsForm.vue'
