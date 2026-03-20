@@ -4,8 +4,13 @@ export const defaultOptions = {
   bgImage: 'https://picsum.photos/1920/1080',
   expandedRows: 10,
   maxResults: 10000,
+  iconSize: 56,
+  textRows: 1,
+  showTopSites: true,
+  numTopSites: 12,
   contextMenu: true,
   showUpdate: false,
+  folderId: '',
 }
 
 export type Options = typeof defaultOptions & { [key: string]: unknown }
@@ -14,6 +19,17 @@ export async function getOptions(): Promise<Options> {
   let { options } = await chrome.storage.sync.get(['options'])
   options = options || {}
   return options as Options
+}
+
+// NOTE: This is not used yet...
+export async function saveKeyValue(key: string, value: any) /* NOSONAR */ {
+  console.debug(`saveKeyValue: ${key}:`, value)
+  if (!key || value === undefined) return
+  const options = await getOptions()
+  if (options[key] === value) return
+  options[key] = value
+  console.log(`Set %c${key}:`, 'color: Lime', value)
+  await chrome.storage.sync.set({ options })
 }
 
 // NOTE: Below is ported from VanillaJS

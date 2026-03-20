@@ -63,7 +63,7 @@ useTitle('Options')
 
         <div class="d-flex flex-row align-items-center justify-content-center">
           <hr class="w-100 my-0" />
-          <span class="text-nowrap mx-2">Extension Options</span>
+          <span class="text-nowrap mx-2">New Tab Options</span>
           <hr class="w-100 my-0" />
         </div>
 

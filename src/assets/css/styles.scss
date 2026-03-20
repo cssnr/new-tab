@@ -4,7 +4,11 @@
 //@import 'bootswatch/dist/zephyr/bootswatch';
 
 @supports (scrollbar-gutter: stable both-edges) {
-    body.modal-open {
+    html {
+        scrollbar-gutter: stable;
+    }
+
+    body {
         padding-right: 0 !important;
     }
 }
