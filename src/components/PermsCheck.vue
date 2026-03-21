@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useToast } from '@/composables/useToast.ts'
+import { clickOpen } from '@/utils/extension.ts'
+import { isFirefox } from '@/utils/system.ts'
 
 const { showToast } = useToast()
 
@@ -35,7 +37,9 @@ async function grantPerms(event: Event) {
   console.debug('grantPerms:', event)
   // noinspection ES6MissingAwait
   requestPerms()
-  if (props.closeWindow) window.close()
+  if (props.closeWindow) {
+    window.close()
+  }
 }
 
 async function revokePerms(event: Event) {
@@ -86,15 +90,15 @@ onUnmounted(() => {
         <i class="fa-solid fa-check-double me-1"></i> Grant Host Permissions
       </button>
       <p v-if="showInfo" class="text-center mb-0">
-        <a href="permissions.html">More Information on Permissions</a>
+        <a href="/permissions.html" target="_blank" @click.prevent="clickOpen($event, closeWindow)"
+          >More Information on Permissions</a
+        >
       </p>
     </div>
 
-    <div v-if="hasPerms && props.showAlert" class="alert alert-success mt-3 mb-0" role="alert">
-      Permissions Granted.
-    </div>
+    <div v-if="hasPerms && showAlert" class="alert alert-success mt-3 mb-0" role="alert">Permissions Granted.</div>
 
-    <div v-if="hasPerms && props.showRemove">
+    <div v-if="hasPerms && showRemove && isFirefox">
       <button
         class="btn btn-link link-danger revoke-permissions"
         type="button"

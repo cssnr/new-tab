@@ -32,15 +32,19 @@
 
     const showActiveTheme = (theme) => {
         // console.debug(`showActiveTheme: ${theme}`)
-        const themeIcon = document.querySelector('#theme-icon')
-        if (!themeIcon) {
+        const themeIcons = document.querySelectorAll('.theme-icon')
+        // console.debug('themeIcons:', themeIcons)
+        if (!themeIcons) {
             // console.debug('No Theme Icon to Set.')
             return
         }
         document.querySelectorAll('[data-bs-theme-value]').forEach((el) => {
             if (el.dataset.bsThemeValue === theme) {
                 const i = el.querySelector('i')
-                themeIcon.className = i.className + ' fa-lg'
+                // console.debug('i.className:', i.className)
+                themeIcons.forEach(
+                    (icon) => (icon.className = i.className + ' fa-lg theme-icon'),
+                )
                 el.classList.add('active')
                 el.setAttribute('aria-pressed', 'true')
             } else {

@@ -9,9 +9,8 @@
       role="button"
       data-bs-toggle="dropdown"
       aria-expanded="false"
-      href="#"
     >
-      <i id="theme-icon" class="fa-solid fa-circle-half-stroke fa-lg" style="min-width: 20px"></i>
+      <i class="fa-solid fa-circle-half-stroke fa-lg theme-icon" style="min-width: 20px"></i>
       <i class="fa-solid fa-caret-down fa-xs mx-1"></i
     ></a>
     <ul class="dropdown-menu auto dropdown-menu-end" aria-labelledby="bs-theme-dropdown">

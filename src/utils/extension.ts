@@ -122,10 +122,15 @@ export async function activateOrOpen(url: string, open = true) {
   console.warn('tab not found and open not set!')
 }
 
-// export async function checkPerms(manifest: chrome.runtime.Manifest) {
-//   // const manifest = chrome.runtime.getManifest()
-//   console.debug('checkPerms:', manifest.host_permissions)
-//   return chrome.permissions.contains({
-//     origins: manifest.host_permissions,
-//   })
-// }
+export function clickOpen(e: Event, close = false) {
+  const target = e.currentTarget as HTMLAnchorElement
+  let url = target.href
+  console.log('clickOpen:', close, url)
+  if (!url || url === '#') return
+  if (url.startsWith('/')) {
+    url = chrome.runtime.getURL(url)
+  }
+  activateOrOpen(url).then(() => {
+    if (close || target.dataset.close === 'true') window.close()
+  })
+}
