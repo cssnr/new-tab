@@ -16,6 +16,8 @@ const props = withDefaults(
   },
 )
 
+const width = computed(() => props.size + 'px')
+
 console.debug('%cLOADED: TopSites.vue', 'color: Orange', props)
 
 const topSites = ref<browser.topSites.MostVisitedURL[] | chrome.topSites.MostVisitedURL[]>([])
@@ -55,12 +57,11 @@ onMounted(async () => {
       v-for="site in topSitesShown"
       :key="site.url"
       :href="site.url"
-      class="d-flex flex-column align-items-center gap-1 text-decoration-none rounded top-site"
-      :style="{ width: `${props.size}px` }"
+      class="top-site d-flex flex-column align-items-center gap-1 text-decoration-none rounded"
       @click.prevent="openUrl(site.url)"
     >
-      <img :src="getFaviconUrl(site)" class="top-site-icon rounded rounded-3 p-1" alt="" />
-      <span class="top-site-label w-100 text-center small" :style="{ maxHeight: `calc(1.2em * ${props.textRows})` }">
+      <img :src="getFaviconUrl(site)" class="rounded rounded-3 p-1" alt="" />
+      <span class="text-center small" :style="{ maxHeight: `calc(1.2em * ${props.textRows})` }">
         {{ site.title || 'Unknown' }}
       </span>
     </a>
@@ -69,18 +70,21 @@ onMounted(async () => {
 
 <style scoped>
 .top-site {
+  width: v-bind(width);
   filter: drop-shadow(4px 4px 8px var(--bs-black));
   backdrop-filter: blur(6px) brightness(0.75);
 }
 
-.top-site-icon {
+.top-site img {
   width: 100%;
   height: auto;
   aspect-ratio: 1 / 1;
   object-fit: contain;
+  margin-bottom: -8px;
 }
 
 .top-site span {
+  width: 100%;
   display: block;
   overflow: hidden;
   word-break: break-word;
