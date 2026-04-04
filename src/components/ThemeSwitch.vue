@@ -1,11 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { i18n } from '#imports'
+</script>
 
 <template>
   <div class="dropdown">
     <a
       class="link-body-emphasis text-decoration-none"
       id="bs-theme-dropdown"
-      title="Theme Switcher"
+      :title="i18n.t('theme.title')"
       role="button"
       data-bs-toggle="dropdown"
       aria-expanded="false"
@@ -17,19 +19,19 @@
       <li>
         <button class="dropdown-item" data-bs-theme-value="dark" aria-pressed="false">
           <i class="fa-regular fa-moon" style="min-width: 16px"></i>
-          <span class="ms-3">Dark</span>
+          <span class="ms-3">{{ i18n.t('theme.dark') }}</span>
         </button>
       </li>
       <li>
         <button class="dropdown-item" data-bs-theme-value="light" aria-pressed="false">
           <i class="fa-solid fa-sun" style="min-width: 16px"></i>
-          <span class="ms-3">Light</span>
+          <span class="ms-3">{{ i18n.t('theme.light') }}</span>
         </button>
       </li>
       <li>
         <button class="dropdown-item" data-bs-theme-value="auto" aria-pressed="false">
           <i class="fa-solid fa-circle-half-stroke" style="min-width: 16px"></i>
-          <span class="ms-3">Auto</span>
+          <span class="ms-3">{{ i18n.t('theme.auto') }}</span>
         </button>
       </li>
     </ul>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { isFirefox } from '@/utils/system.ts'
-import { openUrl } from '@/utils'
+import { openUrl } from '@/utils/index.ts'
 
 const props = withDefaults(
   defineProps<{

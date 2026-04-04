@@ -17,7 +17,7 @@
 # New Tab
 
 <a title="New Tab" href="https://github.com/smashedr/new-tab?tab=readme-ov-file#readme" target="_blank">
-<img alt="New Tab" align="right" width="128" height="auto" src="https://raw.githubusercontent.com/smashedr/new-tab/master/public/images/logo128.png"></a>
+<img alt="New Tab" align="right" width="128" height="auto" src="https://raw.githubusercontent.com/smashedr/new-tab/master/src/assets/icon.svg"></a>
 
 - [Install](#install)
 - [Features](#features)

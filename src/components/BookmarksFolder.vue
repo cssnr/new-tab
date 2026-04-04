@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
-import { openUrl } from '@/utils'
+import { openUrl } from '@/utils/index.ts'
 import { getOptions, saveKeyValue } from '@/utils/options.ts'
 
 console.debug('%cLOADED: BookmarksFolder.vue', 'color: Orange')

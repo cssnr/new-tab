@@ -41,8 +41,6 @@ console.log('width:', width.value)
   <div id="popupContainer">
     <PanelHeader :close-window="true" :popup-button="false" />
 
-    <!--<PermsCheck />-->
-
     <div class="d-grid gap-2 p-1">
       <PermsCheck />
       <SearchBox :close-window="true" :new-tab="true" :expanded-rows="2" />
@@ -54,9 +52,9 @@ console.log('width:', width.value)
 
     <!--<div v-if="warningRef">-->
     <!--  <hr class="my-0" />-->
-    <!--  <OptionsForm :close-window="true" :compact="true" class="p-2" />-->
+    <!--  <OptionsForm :close-window="true" :show="['switches']" class="p-2" />-->
     <!--</div>-->
-    <OptionsForm :compact="true" class="p-2" />
+    <OptionsForm :show="['switches']" class="p-2" />
 
     <ToastAlerts />
   </div>

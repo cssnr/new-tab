@@ -1,14 +1,17 @@
-import { openExtPanel, openPopup, openSidePanel } from '@/utils/extension.ts'
-
-const contexts: chrome.contextMenus.CreateProperties[] = [
-  { contexts: ['all'], id: 'openPopup', title: 'Open Popup' },
-  { contexts: ['all'], id: 'openSidePanel', title: 'Open Side Panel' },
-  { contexts: ['all'], id: 'openExtPanel', title: 'Open Extension Panel' },
-  { contexts: ['all'], id: '4jaqIR9b', type: 'separator' },
-  { contexts: ['all'], id: 'openOptions', title: 'Open Options' },
+const config: chrome.contextMenus.CreateProperties[] = [
+  { contexts: ['all'], id: 'openPopup' },
+  { contexts: ['all'], id: 'openSidePanel' },
+  { contexts: ['all'], id: 'openExtPanel' },
+  { contexts: ['all'], id: 'separator' },
+  { contexts: ['all'], id: 'openOptions' },
 ]
 
-// NOTE: Below is ported from VanillaJS
+const contexts: chrome.contextMenus.CreateProperties[] = config.map((entry) => ({
+  ...entry,
+  ...(entry.id === 'separator'
+    ? { type: 'separator', id: crypto.randomUUID() }
+    : { title: i18n.t(`ctx.${entry.id}` as any) }),
+}))
 
 export function createContextMenus() {
   console.debug('createContextMenus')
@@ -18,22 +21,4 @@ export function createContextMenus() {
   chrome.contextMenus.removeAll().then(() => {
     contexts.forEach((item) => chrome.contextMenus.create(item))
   })
-}
-
-export async function onClicked(
-  ctx: chrome.contextMenus.OnClickData,
-  tab?: chrome.tabs.Tab,
-) {
-  console.debug('onClicked:', ctx, tab)
-  if (ctx.menuItemId === 'openOptions') {
-    await chrome.runtime.openOptionsPage()
-  } else if (ctx.menuItemId === 'openPopup') {
-    await openPopup()
-  } else if (ctx.menuItemId === 'openExtPanel') {
-    await openExtPanel()
-  } else if (ctx.menuItemId === 'openSidePanel') {
-    openSidePanel()
-  } else {
-    console.error(`Unknown ctx.menuItemId: ${ctx.menuItemId}`)
-  }
 }

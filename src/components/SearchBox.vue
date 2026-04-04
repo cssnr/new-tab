@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { openUrl } from '@/utils'
+import { openUrl } from '@/utils/index.ts'
 import { Search, deleteSearch, getSearches, addSearch, updateSearch } from '@/utils/searches.ts'
 import camelCase from 'camelcase'
 import * as icons from 'simple-icons'

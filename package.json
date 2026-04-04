@@ -26,21 +26,23 @@
     "bootstrap": "^5.3.8",
     "camelcase": "^9.0.0",
     "idb": "^8.0.3",
-    "simple-icons": "^16.12.0",
-    "vue": "^3.5.30"
+    "simple-icons": "^16.14.0",
+    "vue": "^3.5.32"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.2.0",
     "@types/bootstrap": "^5.2.10",
-    "@types/chrome": "^0.1.38",
+    "@types/chrome": "^0.1.39",
     "@types/firefox-webext-browser": "^143.0.0",
+    "@wxt-dev/auto-icons": "^1.1.1",
+    "@wxt-dev/i18n": "^0.2.5",
     "@wxt-dev/module-vue": "^1.0.3",
     "nodemon": "^3.1.14",
     "prettier": "^3.8.1",
-    "sass": "^1.98.0",
-    "typescript": "~5.9.3",
+    "sass": "^1.99.0",
+    "typescript": "~6.0.2",
     "vue-tsc": "^3.2.6",
-    "web-ext": "^10.0.0",
+    "web-ext": "^10.1.0",
     "wxt": "^0.20.20"
   }
 }

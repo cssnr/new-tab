@@ -1,16 +1,17 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { debounce } from '@/utils'
+import { debounce } from '@/utils/index.ts'
 import { useTitle } from '@/composables/useTitle.ts'
-
 import ButtonsList from '@/components/ButtonsList.vue'
 import ToastAlerts from '@/components/ToastAlerts.vue'
 import BackToTop from '@/components/BackToTop.vue'
 import PanelHeader from '@/components/PanelHeader.vue'
 import SearchBox from '@/components/SearchBox.vue'
 import PanelFooter from '@/components/PanelFooter.vue'
-import OptionsForm from '@/components/OptionsForm.vue'
 import PermsCheck from '@/components/PermsCheck.vue'
+import OptionsForm from '@/components/OptionsForm.vue'
+
+console.debug('%c popout/App.vue', 'color: Lime')
 
 async function windowResize() {
   const size = { panelWidth: window.outerWidth, panelHeight: window.outerHeight }
@@ -45,7 +46,7 @@ useTitle('Panel')
   </main>
 
   <footer class="flex-shrink-0">
-    <OptionsForm :compact="true" class="p-2" />
+    <OptionsForm :show="['switches']" class="p-2" />
     <PanelFooter />
   </footer>
 

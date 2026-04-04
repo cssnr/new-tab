@@ -2,30 +2,19 @@
 import { isFirefox } from '@/utils/system.ts'
 import { onMounted } from 'vue'
 
-function openChromeShortcuts() {
-  chrome.tabs.update({ url: 'chrome://extensions/shortcuts' })
-}
-
-onMounted(() => {
-  setShortcuts()
-})
-
 // NOTE: Below is ported from VanillaJS
 async function setShortcuts(selector = '#keyboard-shortcuts') {
   console.debug('setShortcuts')
-  if (!chrome.commands) {
-    return console.debug('Skipping: chrome.commands')
-  }
+  if (!chrome.commands) return console.debug('Skipping: chrome.commands')
+
   const table = document.querySelector(selector)
-  if (!table) {
-    return console.warn(`Table not found: ${selector}`)
-  }
+  if (!table) return console.warn(`Table not found: ${selector}`)
+
   table.classList.remove('d-none')
   const tbody = table.querySelector('tbody')
   const source = table.querySelector('tfoot > tr')?.cloneNode(true)
-  if (!tbody || !source) {
-    return console.warn(`Source element not found!`)
-  }
+  if (!tbody || !source) return console.warn(`Source element not found!`)
+
   const commands = await chrome.commands.getAll()
   for (const command of commands) {
     // console.debug('command:', command)
@@ -40,6 +29,14 @@ async function setShortcuts(selector = '#keyboard-shortcuts') {
     tbody.appendChild(row)
   }
 }
+
+function openChromeShortcuts() {
+  chrome.tabs.update({ url: 'chrome://extensions/shortcuts' })
+}
+
+onMounted(() => {
+  setShortcuts()
+})
 </script>
 
 <template>
@@ -93,9 +90,9 @@ async function setShortcuts(selector = '#keyboard-shortcuts') {
   </div>
 </template>
 
-<style scoped>
-/* NOTE: For brite bootswatch theme */
-table {
-  border-collapse: separate;
-}
-</style>
+<!--<style scoped>-->
+<!--/* NOTE: For brite bootswatch theme */-->
+<!--table {-->
+<!--  border-collapse: separate;-->
+<!--}-->
+<!--</style>-->

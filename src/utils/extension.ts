@@ -134,3 +134,9 @@ export function clickOpen(e: Event, close = false) {
     if (close || target.dataset.close === 'true') window.close()
   })
 }
+
+export async function hasPermissions() {
+  const manifest = chrome.runtime.getManifest()
+  console.debug('hasPermissions - origins:', manifest.host_permissions)
+  return await chrome.permissions.contains({ origins: manifest.host_permissions })
+}

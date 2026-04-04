@@ -20,6 +20,16 @@ body {
     background-size: cover;
 }
 
+@supports (scrollbar-gutter: stable both-edges) {
+    html {
+        scrollbar-gutter: stable;
+    }
+
+    body {
+        padding-right: 0 !important;
+    }
+}
+
 .offcanvas-backdrop.show {
     opacity: 0.3 !important;
 }

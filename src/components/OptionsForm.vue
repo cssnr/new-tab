@@ -1,39 +1,28 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue'
 import { saveOptions } from '@/utils/options.ts'
-import { Tooltip } from 'bootstrap'
-import { isMobile } from '@/utils/system.ts'
 import { useOptions } from '@/composables/useOptions.ts'
+import FormSwitch from '@/components/FormSwitch.vue'
+import HorizontalRule from '@/components/HorizontalRule.vue'
 
 const props = withDefaults(
   defineProps<{
-    compact?: boolean
+    show?: string[]
+    switches?: string[]
   }>(),
   {
-    compact: false,
+    show: () => ['newtab', 'switches'],
+    switches: () => ['contextMenu', 'showUpdate'],
   },
 )
 
 console.debug('%cLOADED: OptionsForm.vue', 'color: Orange', props)
 
 const options = useOptions()
-
-onMounted(() => {
-  console.debug('%cMOUNTED: OptionsForm.vue', 'color: Lime')
-  // getOptions().then((results) => (options.value = results))
-
-  // NOTE: Find a better way to enable tooltips...
-  document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach((el) => new Tooltip(el))
-})
-
-onUnmounted(() => {
-  console.debug('%cUNMOUNTED: OptionsForm.vue', 'color: Yellow')
-})
 </script>
 
 <template>
   <form>
-    <div v-if="!props.compact" class="row mb-2">
+    <div v-if="show.includes('newtab')" class="row mb-2">
       <div class="col-12 col-sm-6 mb-2">
         <label for="maxResults" class="form-label"><i class="fa-solid fa-hashtag me-1"></i> Max History</label>
         <i class="fa-solid fa-circle-info p-1" data-bs-toggle="tooltip" data-bs-title="Maximum Items Processed."></i>
@@ -155,46 +144,13 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <div class="d-flex flex-row align-items-center justify-content-center">
-          <hr class="w-100 my-0" />
-          <span class="text-nowrap mx-2">Extension Options</span>
-          <hr class="w-100 my-0" />
-        </div>
+        <HorizontalRule>Extension Options</HorizontalRule>
       </div>
     </div>
 
-    <div v-if="!isMobile" class="form-check form-switch">
-      <input
-        v-model="options.contextMenu"
-        @change="saveOptions"
-        id="contextMenu"
-        class="form-check-input"
-        type="checkbox"
-        role="switch"
-      />
-      <label class="form-check-label" for="contextMenu">Enable Right Click Menu</label>
-      <i
-        class="fa-solid fa-circle-info p-1"
-        data-bs-toggle="tooltip"
-        data-bs-title="Show Context Menu on Right Click."
-      ></i>
-    </div>
-    <div class="form-check form-switch">
-      <input
-        v-model="options.showUpdate"
-        @change="saveOptions"
-        id="showUpdate"
-        class="form-check-input"
-        type="checkbox"
-        role="switch"
-      />
-      <label class="form-check-label" for="showUpdate">Show Release Notes on Update</label>
-      <i
-        class="fa-solid fa-circle-info p-1"
-        data-bs-toggle="tooltip"
-        data-bs-title="Show Release Notes on Version Update."
-      ></i>
-    </div>
+    <template v-if="show.includes('switches')" v-for="id in switches" :key="id">
+      <FormSwitch :id="id" v-model="options[id]" />
+    </template>
 
     <div>
       <!--<OptionTable />-->

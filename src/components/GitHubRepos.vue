@@ -2,7 +2,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { showToast } from '@/composables/useToast.ts'
 import { getOptions } from '@/utils/options.ts'
-import { openUrl } from '@/utils'
+import { openUrl } from '@/utils/index.ts'
 
 const inputRef = ref<HTMLInputElement | null>(null)
 const repos = ref<string[]>([])

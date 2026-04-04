@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { i18n } from '#imports'
 import { useTitle } from '@/composables/useTitle.ts'
-
 import BackToTop from '@/components/BackToTop.vue'
+import PermsCheck from '@/components/PermsCheck.vue'
 import ToastAlerts from '@/components/ToastAlerts.vue'
 import PageFooter from '@/components/PageFooter.vue'
-import PermsCheck from '@/components/PermsCheck.vue'
 
-console.debug('%c options/App.vue', 'color: Lime')
+console.debug('%cLOADED permissions/App.vue', 'color: Orange')
 
 chrome.permissions.onAdded.addListener(onAdded)
 
@@ -20,7 +20,7 @@ async function onAdded(permissions: chrome.permissions.Permissions) {
 
 const manifest = chrome.runtime.getManifest()
 
-useTitle('Permissions')
+useTitle(i18n.t('permissions.title'))
 </script>
 
 <template>
@@ -30,7 +30,7 @@ useTitle('Permissions')
         <div class="card p-3 text-center">
           <div class="d-flex justify-content-center align-items-center">
             <img
-              src="/images/logo48.png"
+              :src="'/icons/48.png'"
               class="me-2"
               height="48"
               width="48"
@@ -40,11 +40,11 @@ useTitle('Permissions')
             <h1>{{ manifest.name }}</h1>
           </div>
 
-          <PermsCheck :show-alert="true" class="my-2" />
+          <PermsCheck :show-alert="true" :show-remove="true" class="my-2" />
 
-          <p>To download an image on Chrome for upload to the API, host permissions are required.</p>
-          <a class="btn btn-lg btn-outline-info w-100 mb-3" href="options.html" @click.prevent="openOptions()">
-            <i class="fa-solid fa-sliders me-1"></i> Open Options</a
+          <p>{{ i18n.t('permissions.reason') }}</p>
+          <a class="btn btn-lg btn-outline-info w-100 mb-3" href="/options.html" @click.prevent="openOptions()">
+            <i class="fa-solid fa-sliders me-1"></i> {{ i18n.t('ctx.openOptions') }}</a
           >
 
           <hr class="mt-0" />

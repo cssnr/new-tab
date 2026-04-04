@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
+import { debounce } from '@/utils/index.ts'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     btnClass?: string
   }>(),
@@ -21,11 +22,12 @@ const onScroll = () => {
   }
 }
 
-function debounce<T extends (...args: unknown[]) => unknown>(fn: T, timeout = 250): (...args: Parameters<T>) => void {
-  let timeoutID: ReturnType<typeof setTimeout>
-  return (...args: Parameters<T>) => {
-    clearTimeout(timeoutID)
-    timeoutID = setTimeout(() => fn(...args), timeout)
+const topClick = () => {
+  if (window.location.hash) {
+    window.location.hash = ''
+  } else {
+    document.body.scrollTop = 0
+    document.documentElement.scrollTop = 0
   }
 }
 
@@ -35,18 +37,13 @@ onMounted(() => {
   window.addEventListener('scroll', onScrollDebounced)
 })
 
-const topClick = () => {
-  if (window.location.hash) {
-    window.location.hash = ''
-  } else {
-    document.body.scrollTop = 0
-    document.documentElement.scrollTop = 0
-  }
-}
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScrollDebounced)
+})
 </script>
 
 <template>
-  <button ref="backToTop" id="back-to-top" type="button" :class="['btn', props.btnClass]" @click="topClick">
+  <button ref="backToTop" id="back-to-top" type="button" :class="['btn', btnClass]" @click="topClick">
     <i class="fa-regular fa-square-caret-up"></i>
   </button>
 </template>

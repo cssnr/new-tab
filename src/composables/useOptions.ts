@@ -1,6 +1,7 @@
 // composables/useOptions.ts
 import { ref, onMounted, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
+import type { Options } from '@/utils/options.ts'
 
 export function useOptions(): Ref<Options> {
   const options = ref<Options>({} as Options)

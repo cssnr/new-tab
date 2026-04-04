@@ -1,0 +1,94 @@
+name: New Tab
+short_name: New Tab
+description: New Tab Extension
+
+ui:
+  action:
+    add: Add
+    cancel: Cancel
+    clear: Clear
+    close: Close
+    delete: Delete
+    edit: Edit
+    options: Options
+    save: Save
+
+    openPopup: Open Popup
+    sidePanel: Side Panel
+    extensionPanel: Extension Panel
+    extensionPage: Extension Page
+
+  text:
+    homePage: Home Page
+    openIssue: Open Issue
+    releaseNotes: Release Notes
+    requestFeature: Request Feature
+
+page:
+  # page/App.vue
+  title: Page
+
+permissions:
+  # permissions/App.vue
+  title: Permissions
+  reason: To demonstrate the permissions check, host permissions are required.
+
+options:
+  # options/App.vue
+  title: Options
+  extension: Extension Options
+  copySupport: Copy Support Information
+  copySupportTip: For issue reporting.
+  copySupportMsg: Support Information Copied.
+  savedCredentials: Saved Credentials
+
+ctx:
+  # background/menus.ts
+  openPopup: Open Popup
+  openSidePanel: Open Side Panel
+  openExtPanel: Open Extension Panel
+  openOptions: Open Options
+
+cmd:
+  # wxt.config.ts
+  executeAction: Open Popup
+  openSidePanel: Open Side Panel
+  openExtPanel: Open Extension Panel
+  openOptions: Open Options
+
+keyboard:
+  # components/KeyboardShortcuts.vue
+  description: Description
+  manage: Manage Keyboard Shortcuts
+  notSet: Not Set
+  shortcut: Shortcut
+  shortcuts: Keyboard Shortcuts
+  unknown: Unknown
+
+perms:
+  # components/PermsCheck.vue
+  granted: Permissions Granted.
+  grant:
+    text: Grant Host Permissions
+    tip: This Extension Requires Host Permissions to Function
+  remove:
+    text: Remove Host Permissions
+    tip: You will no longer be able to do the things...
+  info: More Information on Permissions
+
+theme:
+  # components/ThemeSwitch.vue
+  title: Theme Switcher
+  dark: Dark
+  light: Light
+  auto: Auto
+
+option:
+  # components/FormSwitch.vue
+  toggle:
+    contextMenu:
+      label: Show Right-Click Context Menu
+      tip: Show context menu on right click.
+    showUpdate:
+      label: Show Release Notes on Update
+      tip: Show update notifications.

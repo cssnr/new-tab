@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { useTitle } from '@/composables/useTitle.ts'
-import { copySupport } from '@/utils/options.ts'
-import { isFirefox, isMobile } from '@/utils/system.ts'
+import { isMobile } from '@/utils/system.ts'
 import BackToTop from '@/components/BackToTop.vue'
 import ToastAlerts from '@/components/ToastAlerts.vue'
 import OptionsForm from '@/components/OptionsForm.vue'
 import KeyboardShortcuts from '@/components/KeyboardShortcuts.vue'
 import PageFooter from '@/components/PageFooter.vue'
 import PermsCheck from '@/components/PermsCheck.vue'
+import CopySupport from '@/components/CopySupport.vue'
+import HorizontalRule from '@/components/HorizontalRule.vue'
 
 console.debug('%c options/App.vue', 'color: Lime')
 
@@ -21,14 +22,7 @@ useTitle('Options')
     <div class="m-auto pb-4 w-100">
       <div id="options-wrapper" class="glass-outline blur rounded rounded-3 p-2 p-sm-3 m-auto w-100">
         <div class="d-flex flex-row justify-content-center align-items-center">
-          <img
-            src="/images/logo48.png"
-            class="me-1"
-            height="48"
-            width="48"
-            :alt="manifest.name"
-            :title="manifest.name"
-          />
+          <img :src="'/icons/48.png'" class="me-1" height="48" width="48" :alt="manifest.name" :title="manifest.name" />
           <div>
             <a
               class="link-body-emphasis text-decoration-none fs-1"
@@ -52,28 +46,18 @@ useTitle('Options')
         </div>
 
         <template v-if="!isMobile">
-          <div class="d-flex flex-row align-items-center justify-content-center">
-            <hr class="w-100 my-0" />
-            <span class="text-nowrap mx-2">Keyboard Shortcuts</span>
-            <hr class="w-100 my-0" />
-          </div>
+          <HorizontalRule>Keyboard Shortcuts</HorizontalRule>
 
           <KeyboardShortcuts />
         </template>
 
-        <div class="d-flex flex-row align-items-center justify-content-center">
-          <hr class="w-100 my-0" />
-          <span class="text-nowrap mx-2">New Tab Options</span>
-          <hr class="w-100 my-0" />
-        </div>
+        <HorizontalRule>New Tab Options</HorizontalRule>
 
         <OptionsForm />
 
-        <PermsCheck :close-window="true" :show-info="true" :show-remove="isFirefox" class="my-3" />
+        <PermsCheck :close-window="true" :show-info="true" class="my-3" />
 
-        <p class="fst-italic small mt-3">
-          <a id="copy-support" href="#" @click.prevent="copySupport">Copy Support Information</a> for issue reporting.
-        </p>
+        <CopySupport>Copy Support Information</CopySupport>
 
         <hr class="mt-0" />
 

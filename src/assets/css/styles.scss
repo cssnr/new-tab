@@ -3,16 +3,6 @@
 @import 'bootstrap/scss/bootstrap';
 //@import 'bootswatch/dist/zephyr/bootswatch';
 
-@supports (scrollbar-gutter: stable both-edges) {
-    html {
-        scrollbar-gutter: stable;
-    }
-
-    body {
-        padding-right: 0 !important;
-    }
-}
-
 .icon {
     width: 16px;
     height: 16px;
