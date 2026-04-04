@@ -60,7 +60,7 @@ const manifest = chrome.runtime.getManifest()
 
         <PermsCheck :close-window="true" :show-info="true" class="my-3" />
 
-        <CopySupport>Copy Support Information</CopySupport>
+        <CopySupport class="my-3">Copy Support Information</CopySupport>
 
         <hr class="mt-0" />
 
