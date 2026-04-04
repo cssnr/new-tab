@@ -191,13 +191,13 @@ onUnmounted(() => {
           @keydown.ctrl.enter.prevent="processAI"
           @keydown.meta.enter.prevent="processAI"
         />
-        <label for="floatingTextarea">Questions, Comments or Concerns about Ralf?</label>
+        <label for="floatingTextarea">Press Ctrl+Enter to submit to AI...</label>
       </div>
     </form>
     <div class="d-flex flex-wrap justify-content-center gap-2 my-2">
       <button class="btn btn-warning" @click="processAI">
         <span class="icon" v-html="claudeIcon" />
-        AI (Ctrl+Enter)
+        AI
       </button>
       <button class="btn btn-success" @click="defaultSearch">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -210,7 +210,7 @@ onUnmounted(() => {
         form="search-form"
         @click="processSearch(search)"
       >
-        <span class="si" :style="`--icon-url: url('/si-icons/node_modules/simple-icons/icons/${search.icon}.svg')`" />
+        <span class="si" :style="`--icon-url: url('/si/node_modules/simple-icons/icons/${search.icon}.svg')`" />
         {{ search.name }}
       </button>
       <button :class="['btn', isEditing ? 'btn-warning' : 'btn-outline-warning']" @click="isEditing = !isEditing">

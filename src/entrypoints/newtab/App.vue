@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, watchEffect, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 // import { Options, getOptions } from '@/utils/options.ts'
+import { useBackground } from '@/composables/useBackground.ts'
 import { useOptions } from '@/composables/useOptions.ts'
 // import { useWallpaperDB } from '@/composables/useWallpaperDB.ts'
 import GitHubRepos from '@/components/GitHubRepos.vue'
@@ -15,6 +16,8 @@ import OptionsOffscreen from '@/components/OptionsOffscreen.vue'
 console.debug('%cLOADED: newtab/App.vue', 'color: Orange')
 
 // const { getSelected } = useWallpaperDB()
+
+useBackground()
 
 const options = useOptions()
 
@@ -34,17 +37,17 @@ function handleKeyboard(e: KeyboardEvent) {
   githubSearch.value?.focusSearch(e.key)
 }
 
-watchEffect(async () => {
-  const bgImage = options.value.bgImage // access before await — tracked by Vue
-  if (!bgImage) return
-  await new Promise((resolve) => {
-    const img = new Image()
-    img.onload = resolve
-    img.onerror = resolve
-    img.src = bgImage
-  })
-  document.body.style.background = `url('${bgImage}') no-repeat center fixed`
-})
+// watchEffect(async () => {
+//   const bgImage = options.value.bgImage // access before await — tracked by Vue
+//   if (!bgImage) return
+//   await new Promise((resolve) => {
+//     const img = new Image()
+//     img.onload = resolve
+//     img.onerror = resolve
+//     img.src = bgImage
+//   })
+//   document.body.style.background = `url('${bgImage}') no-repeat center fixed`
+// })
 
 onMounted(async () => {
   console.debug('%cMOUNTED: newtab/App.vue', 'color: Lime')
@@ -67,8 +70,6 @@ onUnmounted(() => {
   console.debug('%cUNMOUNTED: newtab/App.vue', 'color: Yellow')
   window.removeEventListener('keydown', handleKeyboard)
 })
-
-// useTitle('Page')
 </script>
 
 <template>

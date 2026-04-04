@@ -56,6 +56,16 @@ cmd:
   openExtPanel: Open Extension Panel
   openOptions: Open Options
 
+background:
+  # components/BackgroundForm.vue
+  none: None
+  picture: Picture
+  pictureTip: URL to a Web Image.
+  pictureLabel: Background Picture URL
+  video: Video
+  videoTip: URL to a Web Video
+  videoLabel: Background Video URL
+
 keyboard:
   # components/KeyboardShortcuts.vue
   description: Description

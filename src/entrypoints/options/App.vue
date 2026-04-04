@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useTitle } from '@/composables/useTitle.ts'
+import { useBackground } from '@/composables/useBackground.ts'
 import { isMobile } from '@/utils/system.ts'
 import BackToTop from '@/components/BackToTop.vue'
 import ToastAlerts from '@/components/ToastAlerts.vue'
@@ -12,9 +13,11 @@ import HorizontalRule from '@/components/HorizontalRule.vue'
 
 console.debug('%c options/App.vue', 'color: Lime')
 
-const manifest = chrome.runtime.getManifest()
-
 useTitle('Options')
+
+useBackground()
+
+const manifest = chrome.runtime.getManifest()
 </script>
 
 <template>
@@ -63,7 +66,6 @@ useTitle('Options')
 
         <PageFooter />
       </div>
-      <!-- #options-wrapper -->
     </div>
   </div>
 

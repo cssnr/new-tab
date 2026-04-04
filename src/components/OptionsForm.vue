@@ -3,6 +3,7 @@ import { saveOptions } from '@/utils/options.ts'
 import { useOptions } from '@/composables/useOptions.ts'
 import FormSwitch from '@/components/FormSwitch.vue'
 import HorizontalRule from '@/components/HorizontalRule.vue'
+import BackgroundForm from '@/components/BackgroundForm.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -59,20 +60,7 @@ const options = useOptions()
         <div class="form-text" id="expandedRowsHelp">Search Box Expanded Rows.</div>
       </div>
 
-      <div class="col-12 mb-2">
-        <label for="bgImage" class="form-label"><i class="fa-regular fa-image me-1"></i> Background Image URL</label>
-        <i class="fa-solid fa-circle-info p-1" data-bs-toggle="tooltip" data-bs-title="URL to Background Image."></i>
-        <input
-          v-model="options.bgImage"
-          @change="saveOptions"
-          id="bgImage"
-          aria-describedby="bgImageHelp"
-          class="form-control"
-          type="text"
-          autocomplete="off"
-        />
-        <div class="form-text" id="bgImageHelp">New Tab Background Image (blank for none).</div>
-      </div>
+      <BackgroundForm />
 
       <div class="col-12 col-sm-6 mb-2">
         <label for="textRows" class="form-label"><i class="fa-solid fa-grip-lines"></i> Text Rows</label>

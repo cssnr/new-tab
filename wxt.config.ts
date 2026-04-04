@@ -110,13 +110,13 @@ export default defineConfig({
 
   // https://wxt.dev/guide/essentials/config/vite.html
   vite: () => ({
-    // NOTE: For retarded icons
     plugins: [
+      // NOTE: For retarded icons
       viteStaticCopy({
         targets: [
           {
             src: 'node_modules/simple-icons/icons/*.svg',
-            dest: 'si-icons',
+            dest: 'si',
           },
         ],
       }),
