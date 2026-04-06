@@ -9,7 +9,7 @@ export default defineBackground(() => {
 
   chrome.runtime.onInstalled.addListener(onInstalled)
   chrome.runtime.onStartup.addListener(onStartup)
-  chrome.storage.onChanged.addListener(onChanged)
+  chrome.storage.sync.onChanged.addListener(onChanged)
   chrome.runtime.onMessage.addListener(onMessage)
   chrome.commands?.onCommand.addListener(onCommand)
   chrome.contextMenus?.onClicked.addListener(onClicked)
@@ -87,19 +87,22 @@ async function onStartup() {
   }
 }
 
-function onChanged(changes: object, namespace: string) {
-  // console.debug('onChanged:', changes, namespace)
-  for (const [key, { oldValue, newValue }] of Object.entries(changes)) {
-    if (namespace === 'sync' && key === 'options' && oldValue && newValue) {
-      if (oldValue.contextMenu !== newValue.contextMenu) {
-        if (newValue?.contextMenu) {
-          console.log('%c Enabled contextMenu...', 'color: Lime')
-          createContextMenus()
-        } else {
-          console.log('%c Disabled contextMenu...', 'color: OrangeRed')
-          chrome.contextMenus?.removeAll().catch(console.warn)
-        }
-      }
+function onChanged(changes: Record<string, chrome.storage.StorageChange>) {
+  console.log('%c background/index.ts - onChanged:', 'color: Cyan', changes)
+  // process and type options
+  const oldValue = changes.options?.oldValue as Options | undefined
+  const newValue = changes.options?.newValue as Options | undefined
+  // if (!oldValue || !newValue) return console.log('missing oldValue or newValue')
+  if (!oldValue) return console.log('onChanged: missing options oldValue')
+  if (!newValue) return console.warn('onChanged: missing options newValue')
+
+  if (oldValue?.contextMenu !== newValue.contextMenu) {
+    if (newValue.contextMenu) {
+      console.log('%c Enabled contextMenu...', 'color: Lime')
+      createContextMenus()
+    } else {
+      console.log('%c Disabled contextMenu...', 'color: OrangeRed')
+      chrome.contextMenus?.removeAll().catch(console.warn)
     }
   }
 }
