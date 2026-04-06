@@ -40,7 +40,7 @@ console.log('manifest:', manifest)
           target="_blank"
           @click.prevent="clickOpen($event, closeWindow)"
         >
-          <img :src="'/icons/32.png'" alt="L" class="mb-1" style="height: 1.1em" />
+          <img src="@/assets/icon.svg" alt="L" class="mb-1" style="height: 1.1em" />
           {{ manifest.name }}</a
         >
         <a
@@ -93,7 +93,7 @@ console.log('manifest:', manifest)
 
       <div v-if="optionsButton" class="ms-1">
         <a
-          :title="i18n.t('ui.action.options')"
+          :title="i18n.t('ui.text.options')"
           href="/options.html"
           class="btn btn-sm btn-outline-info"
           @click.prevent="openOptions(closeWindow)"

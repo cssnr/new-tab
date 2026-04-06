@@ -17,8 +17,10 @@ ui:
     sidePanel: Side Panel
     extensionPanel: Extension Panel
     extensionPage: Extension Page
+    showOptions: Show Options
 
   text:
+    options: Options
     homePage: Home Page
     openIssue: Open Issue
     releaseNotes: Release Notes
