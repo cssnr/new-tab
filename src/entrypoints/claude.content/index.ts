@@ -12,7 +12,7 @@ export default defineContentScript({
     console.log(`${TAG} - claudePrompt:`, claudePrompt)
     if (!claudePrompt) return console.log(`${TAG} - %c no claudePrompt`, 'color: Cyan')
 
-    // chrome.storage.local.remove('claudePrompt').catch(console.warn)
+    chrome.storage.local.remove('claudePrompt').catch(console.warn)
 
     if (document.querySelector('.tiptap')) {
       console.log(`${TAG} - %c Run on querySelector`, 'color: SpringGreen')
