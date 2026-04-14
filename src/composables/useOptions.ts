@@ -1,4 +1,3 @@
-// composables/useOptions.ts
 import { ref, onMounted, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
 import type { Options } from '@/utils/options.ts'

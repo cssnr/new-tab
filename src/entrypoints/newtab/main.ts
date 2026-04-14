@@ -1,8 +1,7 @@
-import { createApp } from 'vue'
 import '@/main.ts'
-import '@/assets/css/glass.css'
 import './style.css'
-import App from './App.vue'
+import { createApp } from 'vue'
 import { bootstrapDirective } from '@/directives/bootstrap.ts'
+import App from './App.vue'
 
 createApp(App).directive('bs', bootstrapDirective).mount('#app')

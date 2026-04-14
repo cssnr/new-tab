@@ -33,13 +33,8 @@ const topClick = () => {
 
 const onScrollDebounced = debounce(onScroll)
 
-onMounted(() => {
-  window.addEventListener('scroll', onScrollDebounced)
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', onScrollDebounced)
-})
+onMounted(() => window.addEventListener('scroll', onScrollDebounced))
+onUnmounted(() => window.removeEventListener('scroll', onScrollDebounced))
 </script>
 
 <template>

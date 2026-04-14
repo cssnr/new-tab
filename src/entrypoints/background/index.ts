@@ -1,8 +1,7 @@
 import { isFirefox } from '@/utils/system.ts'
-import { defaultOptions, getOptions } from '@/utils/options.ts'
+import { type Options, defaultOptions, getOptions } from '@/utils/options.ts'
 import { openExtPanel, openPopup, openSidePanel } from '@/utils/extension.ts'
-import { createContextMenus } from '@/entrypoints/background/menus.ts'
-import { setDefaultSearches } from '@/utils/searches.ts'
+import { createContextMenus } from './menus.ts'
 
 export default defineBackground(() => {
   console.log(`Loaded: %c${chrome.runtime.id}`, 'Color: Cyan')
@@ -13,64 +12,27 @@ export default defineBackground(() => {
   chrome.runtime.onMessage.addListener(onMessage)
   chrome.commands?.onCommand.addListener(onCommand)
   chrome.contextMenus?.onClicked.addListener(onClicked)
-
-  // chrome.history.onVisited.addListener(onVisited)
-  // chrome.history.onVisitRemoved.addListener(onVisitRemoved)
 })
-
-async function setDefaultOptions(defaultOptions: object) {
-  console.log('setDefaultOptions', defaultOptions)
-  const options = await getOptions()
-  let changed = false
-  for (const [key, value] of Object.entries(defaultOptions)) {
-    // console.log(`${key}: default: ${value} current: ${options[key]}`)
-    if (options[key] === undefined) {
-      changed = true
-      options[key] = value
-      console.log(`Set %c${key}:`, 'color: Khaki', value)
-    }
-  }
-  if (changed) {
-    await chrome.storage.sync.set({ options })
-    console.log('changed options:', options)
-  }
-  return options
-}
 
 async function onInstalled(details: chrome.runtime.InstalledDetails) {
   console.log('onInstalled:', details)
 
   const options = await setDefaultOptions(defaultOptions)
-  // NOTE: DUPLICATION in onStartup
   console.debug('options:', options)
   if (options.contextMenu) createContextMenus()
+  setUninstall().catch(console.warn)
+
   const manifest = chrome.runtime.getManifest()
   console.debug('manifest:', manifest)
-  chrome.runtime.setUninstallURL(`${manifest.homepage_url}/issues`).catch(console.warn)
 
   if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
-    // TODO: Confirm the permissions check does not cause any issues...
-    // NOTE: origins are also defined in components/PermsCheck.vue
-    const hasPerms = await chrome.permissions.contains({
-      origins: manifest.content_scripts?.[0].matches,
-    })
-    console.debug('hasPerms:', hasPerms)
-    if (hasPerms) {
-      await chrome.runtime.openOptionsPage()
-    } else {
-      const url = chrome.runtime.getURL('permissions.html')
-      await chrome.tabs.create({ active: true, url })
-    }
+    await chrome.runtime.openOptionsPage()
   } else if (details.reason === chrome.runtime.OnInstalledReason.UPDATE) {
-    if (options.showUpdate) {
-      if (manifest.version !== details.previousVersion) {
-        const url = `${manifest.homepage_url}/releases/tag/${manifest.version}`
-        await chrome.tabs.create({ active: false, url })
-      }
+    if (options.showUpdate && manifest.version !== details.previousVersion) {
+      const url = `${manifest.homepage_url}/releases/tag/${manifest.version}`
+      await chrome.tabs.create({ active: false, url })
     }
   }
-
-  setDefaultSearches().catch((e) => console.warn(e))
 }
 
 async function onStartup() {
@@ -81,9 +43,7 @@ async function onStartup() {
     const options = await getOptions()
     console.debug('options:', options)
     if (options.contextMenu) createContextMenus()
-    const manifest = chrome.runtime.getManifest()
-    console.debug('manifest:', manifest)
-    chrome.runtime.setUninstallURL(`${manifest.homepage_url}/issues`).catch(console.warn)
+    setUninstall().catch(console.warn)
   }
 }
 
@@ -152,4 +112,35 @@ async function onClicked(ctx: chrome.contextMenus.OnClickData, tab?: chrome.tabs
   } catch (e) {
     console.warn(e)
   }
+}
+
+async function setDefaultOptions(defaultOptions: object) {
+  console.log('setDefaultOptions', defaultOptions)
+  const options = await getOptions()
+  let changed = false
+  for (const [key, value] of Object.entries(defaultOptions)) {
+    // console.log(`${key}: default: ${value} current: ${options[key]}`)
+    if (options[key] === undefined) {
+      changed = true
+      options[key] = value
+      console.log(`Set %c${key}:`, 'color: Khaki', value)
+    }
+  }
+  if (changed) {
+    await chrome.storage.sync.set({ options })
+    console.log('changed options:', options)
+  }
+  return options
+}
+
+async function setUninstall() {
+  // NOTE: Calling this setUninstallURL and using getAppConfig breaks WXT
+  // const config = getAppConfig()
+  const manifest = chrome.runtime.getManifest()
+  // const url = new URL(config.uninstallUrl)
+  // url.searchParams.append('version', manifest.version)
+  // url.searchParams.append('id', chrome.runtime.id)
+  // console.log('setUninstallURL:', url.href)
+  // await chrome.runtime.setUninstallURL(url.href)
+  await chrome.runtime.setUninstallURL(`${manifest.homepage_url}/issues`)
 }

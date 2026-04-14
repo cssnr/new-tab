@@ -29,8 +29,8 @@ export default defineConfig({
       name: '__MSG_name__',
       short_name: '__MSG_short_name__',
       description: '__MSG_description__',
-
       homepage_url: 'https://github.com/smashedr/new-tab',
+
       permissions: [
         'contextMenus',
         'storage',
@@ -40,10 +40,6 @@ export default defineConfig({
         'topSites',
         'favicon',
       ],
-
-      // chrome_url_overrides: {
-      //   newtab: 'tab.html',
-      // },
 
       commands: {
         _execute_action: {

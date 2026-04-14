@@ -39,10 +39,9 @@ async function copySupport(event: Event) {
     `isFirefox: ${isFirefox}`,
     `isMobile: ${isMobile}`,
   ]
+
   const commands = await chrome.commands?.getAll()
-  if (commands) {
-    result.push(`commands: ${JSON.stringify(commands)}`)
-  }
+  if (commands) result.push(`commands: ${JSON.stringify(commands)}`)
   await navigator.clipboard.writeText(result.join('\n'))
   showToast(props.message)
 }

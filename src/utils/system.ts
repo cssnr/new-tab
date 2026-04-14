@@ -1,5 +1,3 @@
-// system
-
 // NOTE: Implement import.meta.env.FIREFOX instead of isFirefox
 export const isFirefox = !!import.meta.env.FIREFOX
 // export const isFirefox =

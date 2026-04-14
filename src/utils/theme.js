@@ -39,6 +39,7 @@
             return
         }
         document.querySelectorAll('[data-bs-theme-value]').forEach((el) => {
+            // noinspection JSUnresolvedReference
             if (el.dataset.bsThemeValue === theme) {
                 const i = el.querySelector('i')
                 // console.debug('i.className:', i.className)
@@ -78,6 +79,7 @@
 
         document.querySelectorAll('[data-bs-theme-value]').forEach((el) => {
             el.addEventListener('click', () => {
+                // noinspection JSUnresolvedReference
                 const value = el.dataset.bsThemeValue
                 setStoredTheme(value)
                 setTheme(value)

@@ -26,6 +26,10 @@ ui:
     releaseNotes: Release Notes
     requestFeature: Request Feature
 
+newtab:
+  # newtab/App.vue
+  title: New Tab
+
 page:
   # page/App.vue
   title: Page

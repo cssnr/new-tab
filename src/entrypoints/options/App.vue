@@ -1,75 +1,46 @@
 <script setup lang="ts">
+import { i18n } from '#imports'
 import { useTitle } from '@/composables/useTitle.ts'
 import { useBackground } from '@/composables/useBackground.ts'
-import { isMobile } from '@/utils/system.ts'
+import { isFirefox } from '@/utils/system.ts'
 import BackToTop from '@/components/BackToTop.vue'
+import PermsCheck from '@/components/PermsCheck.vue'
 import ToastAlerts from '@/components/ToastAlerts.vue'
 import OptionsForm from '@/components/OptionsForm.vue'
 import KeyboardShortcuts from '@/components/KeyboardShortcuts.vue'
 import PageFooter from '@/components/PageFooter.vue'
-import PermsCheck from '@/components/PermsCheck.vue'
 import CopySupport from '@/components/CopySupport.vue'
+import PageHeader from '@/components/PageHeader.vue'
 import HorizontalRule from '@/components/HorizontalRule.vue'
 
 console.debug('%c options/App.vue', 'color: Lime')
 
-useTitle('Options')
+useTitle(i18n.t('options.title'))
 
 useBackground()
-
-const manifest = chrome.runtime.getManifest()
 </script>
 
 <template>
-  <div class="d-flex align-items-center justify-content-center p-1 p-sm-3 h-100 w-100">
+  <div class="d-flex align-items-center justify-content-center h-100 w-100 p-1 p-sm-3">
     <div class="m-auto pb-4 w-100">
-      <div id="options-wrapper" class="glass-outline blur rounded rounded-3 p-2 p-sm-3 m-auto w-100">
-        <div class="d-flex flex-row justify-content-center align-items-center">
-          <img
-            src="@/assets/icon.svg"
-            class="me-1"
-            height="48"
-            width="48"
-            :alt="manifest.name"
-            :title="manifest.name"
-          />
-          <div>
-            <a
-              class="link-body-emphasis text-decoration-none fs-1"
-              title="Home Page"
-              :href="manifest.homepage_url"
-              target="_blank"
-              rel="nofollow"
-            >
-              {{ manifest.name }}</a
-            >
-            <a
-              class="link-body-emphasis text-decoration-none small"
-              title="Release Notes"
-              :href="`${manifest.homepage_url}/releases/tag/${manifest.version}`"
-              target="_blank"
-              rel="nofollow"
-            >
-              v<span class="version">{{ manifest.version }}</span></a
-            >
-          </div>
-        </div>
+      <div id="options-wrapper" class="glass-outline rounded rounded-3 w-100 m-auto p-2 p-sm-3">
+        <PageHeader />
 
-        <template v-if="!isMobile">
-          <HorizontalRule>Keyboard Shortcuts</HorizontalRule>
-
-          <KeyboardShortcuts />
-        </template>
+        <KeyboardShortcuts />
 
         <HorizontalRule>New Tab Options</HorizontalRule>
-
         <OptionsForm />
 
-        <PermsCheck :show-info="true" class="my-3" />
+        <PermsCheck :show-info="true" :show-remove="isFirefox" class="my-3" />
 
-        <CopySupport class="my-3">Copy Support Information</CopySupport>
+        <CopySupport
+          class="fst-italic small mx-3"
+          :message="i18n.t('options.copySupportMsg')"
+          :tip="i18n.t('options.copySupportTip')"
+          >{{ i18n.t('options.copySupport') }}</CopySupport
+        >
 
-        <hr class="mt-0" />
+        <hr />
 
         <PageFooter />
       </div>
@@ -80,4 +51,8 @@ const manifest = chrome.runtime.getManifest()
   <BackToTop />
 </template>
 
-<!--<style scoped></style>-->
+<style scoped>
+#options-wrapper {
+  max-width: 767px;
+}
+</style>
