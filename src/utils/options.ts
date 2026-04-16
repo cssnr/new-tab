@@ -10,6 +10,7 @@ export const defaultOptions = {
   showUpdate: false,
   githubUrl: 'https://github.com',
   folderId: '',
+  numBookmarks: 12,
 
   radioBackground: 'bgPicture' as 'bgNone' | 'bgPicture' | 'bgVideo',
   pictureURL: 'https://picsum.photos/1920/1080',
@@ -27,6 +28,7 @@ export async function getOptions(): Promise<Options> {
 // NOTE: This is not used yet...
 export async function saveKeyValue(key: string, value: any) /* NOSONAR */ {
   console.debug(`saveKeyValue: ${key}:`, value)
+  console.debug('typeof value:', typeof value)
   if (!key || value === undefined) return
   const options = await getOptions()
   if (options[key] === value) return
@@ -54,7 +56,7 @@ export async function saveOptions(event: Event) /* NOSONAR */ {
     }
   } else if (target.type === 'checkbox') {
     value = target.checked
-  } else if (target.type === 'number') {
+  } else if (target.type === 'number' || target.type === 'range') {
     const number = Number.parseFloat(target.value)
     const toBound = (val: string, fallback: number): number =>
       val != null && val !== '' ? Number.parseFloat(val) : fallback

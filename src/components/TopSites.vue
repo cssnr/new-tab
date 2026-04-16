@@ -52,7 +52,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="d-flex flex-wrap gap-2 justify-content-center">
+  <div v-if="topSitesShown?.length" class="d-flex flex-wrap gap-2 justify-content-center">
     <a
       v-for="site in topSitesShown"
       :key="site.url"
