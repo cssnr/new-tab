@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue'
-// import { Options, getOptions } from '@/utils/options.ts'
+import { onMounted, onUnmounted, provide, ref } from 'vue'
 import { useBackground } from '@/composables/useBackground.ts'
+import { useTitle } from '@/composables/useTitle.ts'
 import { useOptions } from '@/composables/useOptions.ts'
+import { useBookmarks } from '@/composables/useBookmarks.ts'
 // import { useWallpaperDB } from '@/composables/useWallpaperDB.ts'
 import GitHubRepos from '@/components/GitHubRepos.vue'
 import SearchBox from '@/components/SearchBox.vue'
 import ToastAlerts from '@/components/ToastAlerts.vue'
 import TopSites from '@/components/TopSites.vue'
 import OptionsOffscreen from '@/components/OptionsOffscreen.vue'
-import { useTitle } from '@/composables/useTitle.ts'
-// import BookmarksFolder from '@/components/BookmarksFolder.vue'
+import BookmarksFolder from '@/components/BookmarksFolder.vue'
 // import ImageManager from '@/components/ImageManager.vue'
 // import UppyDrop from '@/components/UppyDrop.vue'
 
@@ -23,6 +23,9 @@ useBackground()
 // const { getSelected } = useWallpaperDB()
 
 const options = useOptions()
+
+const bookmarks = useBookmarks()
+provide('bookmarks', bookmarks)
 
 const githubSearch = ref<InstanceType<typeof GitHubRepos> | null>(null)
 
@@ -79,7 +82,7 @@ onUnmounted(() => {
   <header class="flex-shrink-0">
     <SearchBox class="m-2" :expanded-rows="options.expandedRows" />
 
-    <!--<BookmarksFolder class="m-2" />-->
+    <BookmarksFolder class="m-2" />
 
     <TopSites
       v-if="options?.showTopSites"

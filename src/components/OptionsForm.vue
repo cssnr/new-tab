@@ -4,6 +4,7 @@ import { useOptions } from '@/composables/useOptions.ts'
 import FormSwitch from '@/components/FormSwitch.vue'
 import HorizontalRule from '@/components/HorizontalRule.vue'
 import BackgroundForm from '@/components/BackgroundForm.vue'
+import BookmarksForm from '@/components/BookmarksForm.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -19,6 +20,7 @@ const props = withDefaults(
 console.debug('%cLOADED: OptionsForm.vue', 'color: Orange', props)
 
 const options = useOptions()
+// provide('options', options)
 
 const githubUrlValid = ref(true)
 
@@ -160,29 +162,35 @@ function urlChange(id: string, value: string) {
             />
           </div>
         </div>
-
-        <div class="col-12">
-          <label for="githubUrl" class="form-label"><i class="fa-brands fa-github me-1"></i> GitHub URL</label>
-          <i class="fa-solid fa-circle-info p-1" data-bs-toggle="tooltip" data-bs-title="Custom GitHub URL." v-bs></i>
-          <input
-            v-model="options.githubUrl"
-            @change="urlChange('githubUrl', options.githubUrl)"
-            id="githubUrl"
-            aria-describedby="githubUrlHelp"
-            class="form-control"
-            :class="{ 'is-invalid': !githubUrlValid }"
-            type="text"
-            autocomplete="off"
-            placeholder="https://github.com"
-          />
-          <div class="form-text visually-hidden" id="githubUrlHelp">Custom GitHub URL.</div>
-          <div class="invalid-feedback">Invalid URL</div>
-        </div>
-
-        <BackgroundForm />
-
-        <HorizontalRule>Extension Options</HorizontalRule>
       </div>
+
+      <div class="col-12">
+        <BookmarksForm />
+      </div>
+
+      <div class="col-12">
+        <label for="githubUrl" class="form-label"><i class="fa-brands fa-github me-1"></i> GitHub URL</label>
+        <i class="fa-solid fa-circle-info p-1" data-bs-toggle="tooltip" data-bs-title="Custom GitHub URL." v-bs></i>
+        <input
+          v-model="options.githubUrl"
+          @change="urlChange('githubUrl', options.githubUrl)"
+          id="githubUrl"
+          aria-describedby="githubUrlHelp"
+          class="form-control"
+          :class="{ 'is-invalid': !githubUrlValid }"
+          type="text"
+          autocomplete="off"
+          placeholder="https://github.com"
+        />
+        <div class="form-text visually-hidden" id="githubUrlHelp">Custom GitHub URL.</div>
+        <div class="invalid-feedback">Invalid URL</div>
+      </div>
+
+      <div class="col-12">
+        <BackgroundForm />
+      </div>
+
+      <HorizontalRule>Extension Options</HorizontalRule>
     </div>
 
     <template v-if="show.includes('switches')" v-for="id in switches" :key="id">
