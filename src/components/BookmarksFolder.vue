@@ -1,9 +1,27 @@
 <script setup lang="ts">
+import { computed, inject } from 'vue'
 import { openUrl } from '@/utils/index.ts'
+
+const props = withDefaults(
+  defineProps<{
+    numItems?: number
+    textRows?: number
+    size?: number
+  }>(),
+  {
+    numItems: undefined,
+    textRows: 1,
+    size: 80,
+  },
+)
+
+const width = computed(() => props.size + 'px')
 
 console.debug('%cLOADED: BookmarksFolder.vue', 'color: Orange')
 
 const bookmarks = inject<Ref<chrome.bookmarks.BookmarkTreeNode[] | undefined>>('bookmarks')
+
+const bookmarksShown = computed(() => bookmarks?.value?.slice(0, props.numItems))
 
 function getFaviconUrl(mark: chrome.bookmarks.BookmarkTreeNode): string | undefined {
   // console.log('getFaviconUrl:', site)
@@ -17,24 +35,42 @@ function getFaviconUrl(mark: chrome.bookmarks.BookmarkTreeNode): string | undefi
 </script>
 
 <template>
-  <div v-if="bookmarks?.length" class="d-flex flex-wrap gap-1 justify-content-center">
+  <div v-if="bookmarksShown?.length" class="d-flex flex-wrap gap-2 justify-content-center">
     <a
-      v-for="node in bookmarks"
+      v-for="node in bookmarksShown"
       :key="node.url"
       :href="node.url"
-      class="d-flex flex-column align-items-center gap-1 text-decoration-none p-1 rounded top-site"
-      style="width: 80px"
+      class="top-site d-flex flex-column align-items-center gap-1 text-decoration-none rounded"
       @click.prevent="openUrl(node.url)"
     >
-      <img :src="getFaviconUrl(node)" width="32" height="32" alt="" />
-      <span class="text-truncate w-100 text-center small fw-bold">{{ node.title || 'Unknown' }}</span>
+      <img :src="getFaviconUrl(node)" class="rounded rounded-3 p-1" alt="" />
+      <span class="text-center small" :style="{ maxHeight: `calc(1.2em * ${props.textRows})` }">{{
+        node.title || 'Unknown'
+      }}</span>
     </a>
   </div>
 </template>
 
 <style scoped>
 .top-site {
+  width: v-bind(width);
   filter: drop-shadow(4px 4px 8px var(--bs-black));
   backdrop-filter: blur(6px) brightness(0.75);
+}
+
+.top-site img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  margin-bottom: -8px;
+}
+
+.top-site span {
+  width: 100%;
+  display: block;
+  overflow: hidden;
+  word-break: break-word;
+  line-height: 1.2em;
 }
 </style>

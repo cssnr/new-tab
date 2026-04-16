@@ -82,7 +82,12 @@ onUnmounted(() => {
   <header class="flex-shrink-0">
     <SearchBox class="m-2" :expanded-rows="options.expandedRows" />
 
-    <BookmarksFolder class="m-2" />
+    <BookmarksFolder
+      :num-items="options.numTopSites"
+      :text-rows="options.textRows"
+      :size="options.iconSize"
+      class="m-2"
+    />
 
     <TopSites
       v-if="options?.showTopSites"
