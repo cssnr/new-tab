@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { i18n } from '#imports'
+import { i18n, useAppConfig } from '#imports'
 import { clickOpen } from '@/utils/extension.ts'
 
 withDefaults(
@@ -15,7 +15,7 @@ withDefaults(
   },
 )
 
-const manifest = chrome.runtime.getManifest()
+const config = useAppConfig()
 </script>
 
 <template>
@@ -24,32 +24,30 @@ const manifest = chrome.runtime.getManifest()
       v-if="homePage"
       class="link-body-emphasis text-decoration-none d-inline-block"
       rel="noopener"
-      :href="manifest.homepage_url"
+      :href="config.githubUrl"
       target="_blank"
       @click.prevent="clickOpen"
       >{{ i18n.t('ui.text.homePage') }}</a
     >
-    <span class="mx-1">&bull;</span>
+    <span class="mx-2 mx-md-3">&bull;</span>
     <a
       v-if="requestFeature"
       class="link-body-emphasis text-decoration-none d-inline-block"
       rel="noopener"
-      :href="`${manifest.homepage_url}/issues/new?template=1-feature.yaml`"
+      :href="`${config.githubUrl}/issues/new?template=1-feature.yaml`"
       target="_blank"
       @click.prevent="clickOpen"
       >{{ i18n.t('ui.text.requestFeature') }}</a
     >
-    <span class="mx-1">&bull;</span>
+    <span class="mx-2 mx-md-3">&bull;</span>
     <a
       v-if="openIssue"
       class="link-body-emphasis text-decoration-none d-inline-block"
       rel="noopener"
-      :href="`${manifest.homepage_url}/issues`"
+      :href="`${config.githubUrl}/issues`"
       target="_blank"
       @click.prevent="clickOpen"
       >{{ i18n.t('ui.text.openIssue') }}</a
     >
   </div>
 </template>
-
-<!--<style scoped></style>-->

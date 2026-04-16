@@ -27,5 +27,3 @@ const closeWindow = () => window.close()
     </div>
   </div>
 </template>
-
-<!--<style scoped></style>-->
