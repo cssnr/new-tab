@@ -135,12 +135,10 @@ async function setDefaultOptions(defaultOptions: object) {
 
 async function setUninstall() {
   // NOTE: Calling this setUninstallURL and using getAppConfig breaks WXT
-  // const config = getAppConfig()
-  const manifest = chrome.runtime.getManifest()
-  // const url = new URL(config.uninstallUrl)
-  // url.searchParams.append('version', manifest.version)
-  // url.searchParams.append('id', chrome.runtime.id)
-  // console.log('setUninstallURL:', url.href)
-  // await chrome.runtime.setUninstallURL(url.href)
-  await chrome.runtime.setUninstallURL(`${manifest.homepage_url}/issues`)
+  const config = getAppConfig()
+  const url = new URL(config.uninstallUrl)
+  url.searchParams.append('version', config.version)
+  url.searchParams.append('id', chrome.runtime.id)
+  console.log('setUninstallURL:', url.href)
+  await chrome.runtime.setUninstallURL(url.href)
 }

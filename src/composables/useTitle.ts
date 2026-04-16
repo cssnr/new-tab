@@ -1,5 +1,10 @@
-export function useTitle(page: string) {
-  const manifest = chrome.runtime.getManifest()
-  console.debug('manifest:', manifest)
-  document.title = `${manifest.name} ${page}`
+import { useAppConfig } from '#imports'
+
+export function useTitle(title?: string) {
+  const config = useAppConfig()
+  if (title) {
+    document.title = `${config.name} ${title}`
+  } else {
+    document.title = `${config.name}`
+  }
 }

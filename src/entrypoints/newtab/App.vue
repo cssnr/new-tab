@@ -16,7 +16,7 @@ import { useTitle } from '@/composables/useTitle.ts'
 
 console.debug('%cLOADED: newtab/App.vue', 'color: Orange')
 
-useTitle(i18n.t('newtab.title'))
+useTitle()
 
 useBackground()
 
@@ -95,7 +95,7 @@ onUnmounted(() => {
       <div class="d-flex align-items-center justify-content-center w-100 h-100 pb-3" style="min-height: 200px">
         <div class="glass-outline rounded rounded-3 my-0 mx-auto w-100 h-100 d-flex flex-column">
           <div class="p-3 flex-grow-1 overflow-auto">
-            <GitHubRepos ref="githubSearch" />
+            <GitHubRepos v-if="options.githubUrl" ref="githubSearch" :github-url="options.githubUrl" />
           </div>
         </div>
       </div>

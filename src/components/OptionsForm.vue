@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { saveOptions } from '@/utils/options.ts'
+import { saveKeyValue, saveOptions } from '@/utils/options.ts'
 import { useOptions } from '@/composables/useOptions.ts'
 import FormSwitch from '@/components/FormSwitch.vue'
 import HorizontalRule from '@/components/HorizontalRule.vue'
@@ -19,6 +19,23 @@ const props = withDefaults(
 console.debug('%cLOADED: OptionsForm.vue', 'color: Orange', props)
 
 const options = useOptions()
+
+const githubUrlValid = ref(true)
+
+function urlChange(id: string, value: string) {
+  console.log('urlChange:', id, value)
+  try {
+    if (!value.includes('://')) value = `https://${value}`
+    const url = new URL(value)
+    console.log('VALID:', 'color: Lime', url.origin)
+    options.value.githubUrl = url.origin
+    githubUrlValid.value = true
+    saveKeyValue(id, url.origin)
+  } catch (e) {
+    console.log('INVALID:', 'color: Orange', value)
+    githubUrlValid.value = false
+  }
+}
 </script>
 
 <template>
@@ -68,6 +85,24 @@ const options = useOptions()
           placeholder="# of Rows"
         />
         <div class="form-text" id="expandedRowsHelp">Search Box Expanded Rows.</div>
+      </div>
+
+      <div class="col-12">
+        <label for="githubUrl" class="form-label"><i class="fa-brands fa-github me-1"></i> GitHub URL</label>
+        <i class="fa-solid fa-circle-info p-1" data-bs-toggle="tooltip" data-bs-title="Custom GitHub URL." v-bs></i>
+        <input
+          v-model="options.githubUrl"
+          @change="urlChange('githubUrl', options.githubUrl)"
+          id="githubUrl"
+          aria-describedby="githubUrlHelp"
+          class="form-control"
+          :class="{ 'is-invalid': !githubUrlValid }"
+          type="text"
+          autocomplete="off"
+          placeholder="https://github.com"
+        />
+        <div class="form-text" id="githubUrlHelp">Custom GitHub URL.</div>
+        <div class="invalid-feedback">Invalid URL</div>
       </div>
 
       <BackgroundForm />

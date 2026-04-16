@@ -4,6 +4,10 @@ import { showToast } from '@/composables/useToast.ts'
 import { getOptions } from '@/utils/options.ts'
 import { openUrl } from '@/utils/index.ts'
 
+const props = defineProps<{
+  githubUrl: string
+}>()
+
 const inputRef = ref<HTMLInputElement | null>(null)
 const repos = ref<string[]>([])
 const filterTerm = ref('')
@@ -16,7 +20,13 @@ const filteredRepos = computed(() =>
     : repos.value,
 )
 
-const GITHUB_REPO_REGEX = /^https:\/\/github\.com\/([^/?#]+)\/([^/?#]+)/
+function escapeRegex(str: string) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+// const GITHUB_REPO_REGEX = /^https:\/\/github\.com\/([^/?#]+)\/([^/?#]+)/
+const GITHUB_REPO_REGEX = new RegExp(`^${escapeRegex(props.githubUrl)}/([^/?#]+)/([^/?#]+)`)
+console.log('GITHUB_REPO_REGEX:', GITHUB_REPO_REGEX)
 
 const GITHUB_RESERVED_PATHS = new Set([
   'explore',
@@ -91,7 +101,7 @@ async function updateRepos() {
         .reduce<string[]>((acc, { url }) => {
           const match = url?.match(GITHUB_REPO_REGEX)
           if (match && !GITHUB_RESERVED_PATHS.has(match[1])) {
-            acc.push(`https://github.com/${match[1]}/${match[2]}`)
+            acc.push(`${props.githubUrl}/${match[1]}/${match[2]}`)
           }
           return acc
         }, []),

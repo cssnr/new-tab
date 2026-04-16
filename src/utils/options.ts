@@ -8,6 +8,7 @@ export const defaultOptions = {
   numTopSites: 12,
   contextMenu: true,
   showUpdate: false,
+  githubUrl: 'https://github.com',
   folderId: '',
 
   radioBackground: 'bgPicture' as 'bgNone' | 'bgPicture' | 'bgVideo',

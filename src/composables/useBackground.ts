@@ -1,12 +1,11 @@
-// composables/useBackground.ts
 import { onMounted, onUnmounted } from 'vue'
-import { getOptions } from '@/utils/options.ts'
+import { type Options, getOptions } from '@/utils/options.ts'
 
 function setBackground(options: Options) {
   // NOTE: Copied from VanillaJS. Refactor this method...
-  console.log('setBackground: options.radioBackground:', options.radioBackground)
+  console.log('useBackground.ts - setBackground:', options)
+
   const video = document.querySelector('video')
-  console.log('video:', video)
   if (!video) return console.error('no video element') // NOTE: Handle Error
 
   if (options.radioBackground === 'bgPicture') {
@@ -24,43 +23,28 @@ function setBackground(options: Options) {
   }
 }
 
-async function onChanged(changes: Record<string, chrome.storage.StorageChange>) {
-  console.log('composables/useBackground.ts - onChanged:', changes)
-  const records = changes as Record<string, any> // NOTE: Lazy Typing...
-  // console.debug('options:', records.options)
-  const optionChange = records.options
-  if (!optionChange?.oldValue || !optionChange?.newValue) return
-  // console.debug('oldValue:', optionChange.oldValue)
-  // console.debug('newValue:', optionChange.newValue)
+async function onChanged(changes: Record<string, any>) {
+  // console.log('useBackground - onChanged:', changes)
+  const items = changes.options // NOTE: Lazy Typing...
+  // console.log('items:', items)
+  if (!items?.oldValue || !items?.newValue) return
   if (
-    optionChange.oldValue.radioBackground !== optionChange.newValue.radioBackground ||
-    optionChange.oldValue.pictureURL !== optionChange.newValue.pictureURL ||
-    optionChange.oldValue.videoURL !== optionChange.newValue.videoURL
+    items.oldValue.radioBackground !== items.newValue.radioBackground ||
+    items.oldValue.pictureURL !== items.newValue.pictureURL ||
+    items.oldValue.videoURL !== items.newValue.videoURL
   ) {
-    console.log('%c Background Option Change Detected.', 'color: Yellow')
-    setBackground(optionChange.newValue)
+    console.log('%c Background Option Change Detected.', 'color: LightSkyBlue')
+    setBackground(items.newValue)
   }
 }
 
-// export function useBackground(options: Ref<Options | null>) {
 export function useBackground() {
-  // watch(
-  //   options,
-  //   (opts) => {
-  //     if (!opts) return
-  //     setBackground(opts)
-  //   },
-  //   { once: true },
-  // )
+  // console.log('%cLOADED composables/useBackground.ts', 'color: Cyan')
 
   if (!chrome.storage.sync.onChanged.hasListener(onChanged)) {
     chrome.storage.sync.onChanged.addListener(onChanged)
   }
 
-  onMounted(async () => {
-    console.log('composables/useBackground.ts - onMounted')
-    const options = await getOptions()
-    setBackground(options)
-  })
+  onMounted(() => getOptions().then(setBackground).catch(console.warn))
   onUnmounted(() => chrome.storage.sync.onChanged.removeListener(onChanged))
 }

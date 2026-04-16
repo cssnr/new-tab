@@ -4,7 +4,6 @@ import { isFirefox, isMobile } from '@/utils/system.ts'
 import ToastAlerts from '@/components/ToastAlerts.vue'
 import PanelHeader from '@/components/PanelHeader.vue'
 import OptionsForm from '@/components/OptionsForm.vue'
-import ButtonsList from '@/components/ButtonsList.vue'
 import PermsCheck from '@/components/PermsCheck.vue'
 import SearchBox from '@/components/SearchBox.vue'
 
@@ -20,7 +19,6 @@ console.log('width:', width.value)
     <div class="d-grid gap-2 p-1">
       <PermsCheck :close-window="true" />
       <SearchBox :close-window="true" :new-tab="true" :expanded-rows="2" />
-      <ButtonsList :close-window="true" :popup-button="false" />
     </div>
 
     <OptionsForm :show="['switches']" class="p-2" />

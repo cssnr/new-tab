@@ -1,16 +1,15 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import type { Ref } from 'vue'
-import type { Options } from '@/utils/options.ts'
+import { type Options, getOptions } from '@/utils/options.ts'
 
 export function useOptions(): Ref<Options> {
-  console.debug('%cLOADED composables/useOptions.ts', 'color: Orange')
-
+  // console.debug('%cLOADED composables/useOptions.ts', 'color: Orange')
   const options = ref<Options>({} as Options)
 
   const onChanged = async (changes: any) => {
     // console.log('useOptions - onChanged:', changes)
     if ('options' in changes) {
-      console.log('%c composables/useOptions.ts - CHANGE DETECTED ', 'color: Yellow')
+      // console.log('%c composables/useOptions.ts - CHANGE DETECTED ', 'color: Yellow')
       options.value = await getOptions()
     }
   }
