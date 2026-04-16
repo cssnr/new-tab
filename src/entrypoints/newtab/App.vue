@@ -83,7 +83,7 @@ onUnmounted(() => {
     <SearchBox class="m-2" :expanded-rows="options.expandedRows" />
 
     <BookmarksFolder
-      :num-items="options.numTopSites"
+      :num-items="options.numBookmarks"
       :text-rows="options.textRows"
       :size="options.iconSize"
       class="m-2"

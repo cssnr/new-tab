@@ -21,7 +21,9 @@ console.debug('%cLOADED: BookmarksFolder.vue', 'color: Orange')
 
 const bookmarks = inject<Ref<chrome.bookmarks.BookmarkTreeNode[] | undefined>>('bookmarks')
 
-const bookmarksShown = computed(() => bookmarks?.value?.slice(0, props.numItems))
+const bookmarksShown = computed(() =>
+  props.numItems === 0 ? bookmarks?.value : bookmarks?.value?.slice(0, props.numItems),
+)
 
 function getFaviconUrl(mark: chrome.bookmarks.BookmarkTreeNode): string | undefined {
   // console.log('getFaviconUrl:', site)

@@ -10,6 +10,7 @@ export const defaultOptions = {
   showUpdate: false,
   githubUrl: 'https://github.com',
   folderId: '',
+  numBookmarks: 12,
 
   radioBackground: 'bgPicture' as 'bgNone' | 'bgPicture' | 'bgVideo',
   pictureURL: 'https://picsum.photos/1920/1080',

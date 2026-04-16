@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { provide } from 'vue'
 import { saveKeyValue, saveOptions } from '@/utils/options.ts'
 import { useOptions } from '@/composables/useOptions.ts'
 import FormSwitch from '@/components/FormSwitch.vue'
@@ -20,7 +21,7 @@ const props = withDefaults(
 console.debug('%cLOADED: OptionsForm.vue', 'color: Orange', props)
 
 const options = useOptions()
-// provide('options', options)
+provide('options', options)
 
 const githubUrlValid = ref(true)
 
