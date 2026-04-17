@@ -1,5 +1,8 @@
+[![Chrome Web Store Users](https://img.shields.io/chrome-web-store/users/goholgjajaneidafddjpiaphbdaalbhm?logo=google&logoColor=white&label=users)](https://chromewebstore.google.com/detail/goholgjajaneidafddjpiaphbdaalbhm)
 [![GitHub Downloads](https://img.shields.io/github/downloads/smashedr/new-tab/total?logo=github)](https://github.com/smashedr/new-tab/releases)
+[![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/goholgjajaneidafddjpiaphbdaalbhm?label=chrome&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/geo-image/goholgjajaneidafddjpiaphbdaalbhm)
 [![GitHub Release Version](https://img.shields.io/github/v/release/smashedr/new-tab?logo=github)](https://github.com/smashedr/new-tab/releases/latest)
+[![GitHub Locales](https://img.shields.io/github/directory-file-count/smashedr/new-tab/src/locales?type=file&extension=yaml&logo=libretranslate&label=locales)](https://github.com/smashedr/new-tab/tree/master/src/locales)
 [![Workflow Release](https://img.shields.io/github/actions/workflow/status/smashedr/new-tab/release.yaml?logo=norton&logoColor=white&label=release)](https://github.com/smashedr/new-tab/actions/workflows/release.yaml)
 [![Workflow Lint](https://img.shields.io/github/actions/workflow/status/smashedr/new-tab/lint.yaml?logo=norton&logoColor=white&label=lint)](https://github.com/smashedr/new-tab/actions/workflows/lint.yaml)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/smashedr/new-tab?logo=listenhub&label=updated)](https://github.com/smashedr/new-tab/pulse)
@@ -25,38 +28,30 @@
 - [Support](#support)
 - [Contributing](#contributing)
 
-New Tab Extension.
+New Tab Extension with Bookmarks, Top Sites, Search, and recently visited GitHub repository list.
 
 ## Install
 
-> [!WARNING]  
-> Note: Until published you must manually download and install a
-> [release](https://github.com/smashedr/new-tab/releases).
-
-[![Chrome](https://raw.githubusercontent.com/smashedr/logo-icons/master/browsers/chrome_48.png)](https://chromewebstore.google.com/detail/ifefifghpkllfibejafbakmflidjcjfp)
+[![Chrome](https://raw.githubusercontent.com/smashedr/logo-icons/master/browsers/chrome_48.png)](https://chromewebstore.google.com/detail/goholgjajaneidafddjpiaphbdaalbhm)
 [![Firefox](https://raw.githubusercontent.com/smashedr/logo-icons/master/browsers/firefox_48.png)](https://github.com/smashedr/new-tab/releases/latest/download/new-tab-firefox.xpi)
-[![Edge](https://raw.githubusercontent.com/smashedr/logo-icons/master/browsers/edge_48.png)](https://chromewebstore.google.com/detail/ifefifghpkllfibejafbakmflidjcjfp)
-[![Brave](https://raw.githubusercontent.com/smashedr/logo-icons/master/browsers/brave_48.png)](https://chromewebstore.google.com/detail/ifefifghpkllfibejafbakmflidjcjfp)
-[![Opera](https://raw.githubusercontent.com/smashedr/logo-icons/master/browsers/opera_48.png)](https://chromewebstore.google.com/detail/ifefifghpkllfibejafbakmflidjcjfp)
-[![Chromium](https://raw.githubusercontent.com/smashedr/logo-icons/master/browsers/chromium_48.png)](https://chromewebstore.google.com/detail/ifefifghpkllfibejafbakmflidjcjfp)
+[![Edge](https://raw.githubusercontent.com/smashedr/logo-icons/master/browsers/edge_48.png)](https://chromewebstore.google.com/detail/goholgjajaneidafddjpiaphbdaalbhm)
+[![Brave](https://raw.githubusercontent.com/smashedr/logo-icons/master/browsers/brave_48.png)](https://chromewebstore.google.com/detail/goholgjajaneidafddjpiaphbdaalbhm)
+[![Opera](https://raw.githubusercontent.com/smashedr/logo-icons/master/browsers/opera_48.png)](https://chromewebstore.google.com/detail/goholgjajaneidafddjpiaphbdaalbhm)
+[![Chromium](https://raw.githubusercontent.com/smashedr/logo-icons/master/browsers/chromium_48.png)](https://chromewebstore.google.com/detail/goholgjajaneidafddjpiaphbdaalbhm)
 
 All **Chromium** Based Browsers can install the extension from the
-[Chrome Web Store](https://chromewebstore.google.com/detail/ifefifghpkllfibejafbakmflidjcjfp).
+[Chrome Web Store](https://chromewebstore.google.com/detail/goholgjajaneidafddjpiaphbdaalbhm).
 
 - Download a [Chrome Release](https://github.com/smashedr/new-tab/releases/latest/download/new-tab-chrome.crx) from GitHub
 - Download a [Firefox Release](https://github.com/smashedr/new-tab/releases/latest/download/new-tab-firefox.xpi) from GitHub
 
-[![Android QR Code](https://raw.githubusercontent.com/smashedr/repo-images/refs/heads/master/geo-image/qr-code-android.png)](https://github.com/smashedr/new-tab/releases/latest/download/new-tab-firefox.xpi)
-
-_Note: To install self-hosted extensions on Android you must enable a hidden menu item:_
-[_https://extensionworkshop.com/documentation/publish/install-self-distributed_](https://extensionworkshop.com/documentation/publish/install-self-distributed/#install-addon-from-file-android)
-
 ## Features
 
-- Vite + Vue3
-- Chrome + Firefox + Android
-- Fucking Amazing Hands Down
-- No Questions Asked...
+- GitHub Repository List from History
+- Add/Edit Custom Search Queries
+- Customize the Look and Feel
+- Select a Bookmarks Folder
+- Optional Top Sites
 
 > [!TIP]  
 > **Don't see your feature?**
