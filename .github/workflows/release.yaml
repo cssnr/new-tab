@@ -6,7 +6,7 @@ on:
 
 env:
   PACKAGE_NAME: new-tab
-  CHROME_ID: CHANGE_ME # TODO: Add Chrome ID
+  CHROME_ID: goholgjajaneidafddjpiaphbdaalbhm
   MOZILLA_ID: new-tab@cssnr.com
   MOZILLA_CHANNEL: unlisted
   UPDATE_JSON: update.json
