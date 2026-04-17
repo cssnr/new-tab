@@ -175,6 +175,7 @@ jobs:
         uses: cssnr/upload-release-action@v1
         with:
           overwrite: true
+          #files: "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-sources.zip"
           globs: web-ext-artifacts/*.xpi
           names: "${{ env.PACKAGE_NAME }}-firefox.xpi"
 
