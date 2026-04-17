@@ -70,7 +70,7 @@ export default defineConfig({
                 update_url:
                   'https://raw.githubusercontent.com/smashedr/new-tab/master/update.json',
               },
-              gecko_android: { strict_min_version: '120.0' }, // permissions.request
+              // gecko_android: { strict_min_version: '120.0' }, // permissions.request
             },
           }
         : { minimum_chrome_version: '127' }), // chrome.action.openPopup
