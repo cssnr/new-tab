@@ -17,9 +17,9 @@ async function copySupport() {
   const options = await getOptions()
   const local = await chrome.storage.local.get()
 
-  options.githubUrl = options.githubUrl ? 'SET' : 'NOT SET'
-  options.pictureURL = options.pictureURL ? 'SET' : 'NOT SET'
-  options.videoURL = options.videoURL ? 'SET' : 'NOT SET'
+  options.githubUrl = `length: ${options.githubUrl.length}`
+  options.pictureURL = `length: ${options.pictureURL.length}`
+  options.videoURL = `length: ${options.videoURL.length}`
   // delete local.results
 
   const result = [

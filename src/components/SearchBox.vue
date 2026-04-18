@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, useTemplateRef } from 'vue'
 import { openUrl } from '@/utils/index.ts'
+import { showToast } from '@/composables/useToast.ts'
 import { Search, deleteSearch, getSearches, addSearch, updateSearch } from '@/utils/searches.ts'
 import claudeIcon from '@/assets/icons/claude.svg?raw'
 import SearchModal from '@/components/SearchModal.vue'
@@ -21,7 +22,7 @@ const props = withDefaults(
 console.debug('%cLOADED: SearchBox.vue', 'color: Orange', 'props', props)
 
 const isFocused = ref(false)
-const containerRef = ref<HTMLElement | null>(null)
+const containerRef = useTemplateRef<HTMLElement>('containerRef')
 const textRef = useTemplateRef<HTMLTextAreaElement>('textRef')
 
 const searchesRef = ref<Search[]>([])

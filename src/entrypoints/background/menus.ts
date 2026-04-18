@@ -1,3 +1,5 @@
+import { i18n } from '#imports'
+
 const config: chrome.contextMenus.CreateProperties[] = [
   { contexts: ['all'], id: 'openPopup' },
   { contexts: ['all'], id: 'openSidePanel' },
