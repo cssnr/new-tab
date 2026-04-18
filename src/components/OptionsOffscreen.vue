@@ -43,6 +43,7 @@ import ThemeSwitch from '@/components/ThemeSwitch.vue'
 }
 
 #optionsOffcanvas {
-  background-color: rgba(var(--bs-emphasis-bg-rgb), 60%);
+  background-color: rgba(var(--bs-emphasis-bg-rgb), 50%);
+  backdrop-filter: blur(12px);
 }
 </style>
