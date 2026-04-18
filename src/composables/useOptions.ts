@@ -1,5 +1,4 @@
-import { ref, onMounted, onUnmounted } from 'vue'
-import type { Ref } from 'vue'
+import { type Ref, onMounted, onUnmounted, ref } from 'vue'
 import { type Options, getOptions } from '@/utils/options.ts'
 
 export function useOptions(): Ref<Options> {

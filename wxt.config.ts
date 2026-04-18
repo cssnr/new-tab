@@ -7,6 +7,7 @@ import { join } from 'node:path'
 export default defineConfig({
   srcDir: 'src',
   modules: ['@wxt-dev/module-vue', '@wxt-dev/i18n/module', '@wxt-dev/auto-icons'],
+
   // https://wxt.dev/guide/essentials/config/auto-imports.html#disabling-auto-imports
   // imports: false,
 

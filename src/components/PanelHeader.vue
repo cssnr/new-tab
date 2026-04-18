@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { i18n } from '#imports'
+import { i18n, useAppConfig } from '#imports'
 import { clickOpen, openExtPanel, openOptions, openPage, openPopup, openSidePanel } from '@/utils/extension.ts'
 import { isMobile } from '@/utils/system.ts'
 import ThemeSwitch from '@/components/ThemeSwitch.vue'
@@ -12,6 +12,7 @@ withDefaults(
     popupButton?: boolean
     optionsButton?: boolean
     closeWindow?: boolean
+    icon?: boolean
   }>(),
   {
     panelButton: true,
@@ -20,11 +21,11 @@ withDefaults(
     popupButton: true,
     optionsButton: true,
     closeWindow: false,
+    icon: true,
   },
 )
 
-const manifest = chrome.runtime.getManifest()
-console.log('manifest:', manifest)
+const config = useAppConfig()
 </script>
 
 <template>
@@ -36,21 +37,21 @@ console.log('manifest:', manifest)
         <a
           :title="i18n.t('ui.text.homePage')"
           class="link-body-emphasis text-decoration-none fs-4"
-          :href="manifest.homepage_url"
+          :href="config.githubUrl"
           target="_blank"
           @click.prevent="clickOpen($event, closeWindow)"
         >
-          <img src="@/assets/icon.svg" alt="L" class="mb-1" style="height: 1.1em" />
-          {{ manifest.name }}</a
+          <img v-if="icon" src="@/assets/icon.svg" alt="I" class="mb-1" style="height: 1.1em" />
+          {{ config.shortName }}</a
         >
         <a
           :title="i18n.t('ui.text.releaseNotes')"
           class="link-body-emphasis text-decoration-none small ms-1"
-          :href="`${manifest.homepage_url}/releases/tag/${manifest.version}`"
+          :href="`${config.githubUrl}/releases/tag/${config.version}`"
           target="_blank"
           @click.prevent="clickOpen($event, closeWindow)"
         >
-          v<span class="version">{{ manifest.version }}</span></a
+          v<span class="version">{{ config.version }}</span></a
         >
       </div>
 
@@ -103,9 +104,6 @@ console.log('manifest:', manifest)
       </div>
     </div>
   </div>
-  <!-- container-fluid -->
 
   <hr class="my-0" />
 </template>
-
-<!--<style scoped></style>-->

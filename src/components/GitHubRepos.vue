@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { computed, nextTick, ref, onMounted } from 'vue'
 import { showToast } from '@/composables/useToast.ts'
 import { getOptions } from '@/utils/options.ts'
 import { openUrl } from '@/utils/index.ts'

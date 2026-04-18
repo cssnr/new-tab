@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type Ref, ref, onMounted, inject } from 'vue'
-import { type Options, getOptions, saveKeyValue } from '@/utils/options.ts'
+import { type Options, getOptions, saveKeyValue, saveOptions } from '@/utils/options.ts'
 import { getBookmarkFolders } from '@/utils/bookmarks.ts'
 
 const options = inject<Ref<Options | undefined>>('options')

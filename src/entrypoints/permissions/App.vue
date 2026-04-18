@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { i18n } from '#imports'
+import { onMounted, onUnmounted } from 'vue'
+import { openOptions } from '@/utils/extension.ts'
 import { useTitle } from '@/composables/useTitle.ts'
 import BackToTop from '@/components/BackToTop.vue'
 import PermsCheck from '@/components/PermsCheck.vue'
@@ -12,8 +14,6 @@ useTitle(i18n.t('permissions.title'))
 
 const manifest = chrome.runtime.getManifest()
 
-chrome.permissions.onAdded.addListener(onAdded)
-
 async function onAdded(permissions: chrome.permissions.Permissions) {
   console.debug('onAdded:', permissions)
   if (document.hasFocus()) {
@@ -21,6 +21,9 @@ async function onAdded(permissions: chrome.permissions.Permissions) {
     window.close()
   }
 }
+
+onMounted(() => chrome.permissions.onAdded.addListener(onAdded))
+onUnmounted(() => chrome.permissions.onAdded.removeListener(onAdded))
 </script>
 
 <template>
@@ -40,7 +43,7 @@ async function onAdded(permissions: chrome.permissions.Permissions) {
             <h1>{{ manifest.name }}</h1>
           </div>
 
-          <PermsCheck :show-alert="true" :show-remove="true" class="my-2" />
+          <PermsCheck :show-alert="true" class="my-2" />
 
           <p>{{ i18n.t('permissions.reason') }}</p>
           <a class="btn btn-lg btn-outline-info w-100 mb-3" href="/options.html" @click.prevent="openOptions()">

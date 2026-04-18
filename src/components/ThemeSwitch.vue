@@ -36,5 +36,4 @@ import { i18n } from '#imports'
       </li>
     </ul>
   </div>
-  <!-- dropdown -->
 </template>

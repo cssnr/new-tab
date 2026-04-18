@@ -1,4 +1,4 @@
-// noinspection TypeScriptUMDGlobal
+import { defineContentScript } from 'wxt/utils/define-content-script'
 
 const TAG = 'new-tab'
 
