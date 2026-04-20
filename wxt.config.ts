@@ -30,7 +30,7 @@ export default defineConfig({
       name: '__MSG_name__',
       short_name: '__MSG_short_name__',
       description: '__MSG_description__',
-      homepage_url: 'https://github.com/smashedr/new-tab',
+      homepage_url: 'https://github.com/cssnr/new-tab',
 
       permissions: [
         'contextMenus',
@@ -69,7 +69,7 @@ export default defineConfig({
                 strict_min_version: '112.0', // manifest - background.type
                 data_collection_permissions: { required: ['none'] },
                 update_url:
-                  'https://raw.githubusercontent.com/smashedr/new-tab/master/update.json',
+                  'https://raw.githubusercontent.com/cssnr/new-tab/master/update.json',
               },
               // gecko_android: { strict_min_version: '120.0' }, // permissions.request
             },
