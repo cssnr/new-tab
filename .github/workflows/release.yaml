@@ -5,10 +5,9 @@ on:
     types: [published]
 
 env:
-  PACKAGE_NAME: wxt_extension
-  CHROME_ID: CHANGE_ME
+  PACKAGE_NAME: new-tab
+  CHROME_ID: goholgjajaneidafddjpiaphbdaalbhm
   MOZILLA_ID: new-tab@cssnr.com
-  MOZILLA_CHANNEL: unlisted
   UPDATE_JSON: update.json
 
 jobs:
@@ -53,229 +52,206 @@ jobs:
         continue-on-error: true
         uses: cssnr/package-changelog-action@v2
 
-#  publish-mozilla:
-#    name: "Publish Mozilla"
-#    runs-on: ubuntu-latest
-#    timeout-minutes: 30
-#    needs: [release]
-#
-#    permissions:
-#      contents: write
-#
-#    steps:
-#      - name: "Download Artifacts"
-#        uses: actions/download-artifact@v6
-#        with:
-#          name: artifacts
-#
-#      - name: "Generate Release Notes"
-#        id: notes
-#        run: |
-#          notes="Full Release Notes: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }}"
-#          echo "notes=$notes" >> "$GITHUB_OUTPUT"
-#
-#      - name: "Write AMO Metadata"
-#        uses: jsdaniell/create-json@b8e77fa01397ca39cc4a6198cc29a3be5481afef # v1.2.3
-#        with:
-#          name: "amo-metadata.json"
-#          json: '{"version": {"release_notes": {"en-US": "${{ steps.notes.outputs.notes }}"}}}'
-#
-#      - name: "Debug"
-#        run: |
-#          ls -lAh .
-#          stat "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-sources.zip"
-#          yq -e '.version | test("${{ github.event.release.tag_name }}")' firefox-mv3/manifest.json
-#          echo "::group::ls firefox-mv3"
-#          ls -lAh firefox-mv3
-#          echo "::endgroup::"
-#          echo "::group::cat firefox-mv3/manifest.json"
-#          cat -n firefox-mv3/manifest.json
-#          echo "::endgroup::"
-#          echo "::group::cat amo-metadata.json"
-#          cat -n amo-metadata.json
-#          echo "::endgroup::"
-#
-#      - name: "Sign Mozilla Addon"
-#        run: |
-#          npx web-ext sign \
-#            --api-key="${{ secrets.FIREFOX_API_KEY }}" \
-#            --api-secret="${{ secrets.FIREFOX_API_SECRET }}" \
-#            --channel="${{ env.MOZILLA_CHANNEL }}" \
-#            --source-dir="firefox-mv3" \
-#            --amo-metadata="amo-metadata.json" \
-#            --upload-source-code="${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-sources.zip"
-#
-#      - name: "Rename Signed Artifact"
-#        working-directory: web-ext-artifacts
-#        run: |
-#          ls -lAh .
-#          mv ./*.xpi "${{ env.PACKAGE_NAME }}-firefox.xpi"
-#          file "${{ env.PACKAGE_NAME }}-firefox.xpi"
-#
-#      - name: "Upload to Actions"
-#        uses: actions/upload-artifact@v6
-#        with:
-#          name: signed
-#          path: web-ext-artifacts
-#
-#      - name: "Upload to Release"
-#        uses: cssnr/upload-release-action@v1
-#        with:
-#          globs: web-ext-artifacts/*
-#          overwrite: true
-#
-#  update-mozilla:
-#    name: "Update Mozilla"
-#    runs-on: ubuntu-latest
-#    timeout-minutes: 5
-#    needs: [publish-mozilla]
-#
-#    permissions:
-#      contents: write
-#
-#    steps:
-#      - name: "Checkout"
-#        uses: actions/checkout@v6
-#        with:
-#          persist-credentials: false
-#
-#      - name: "Mozilla Addon Update"
-#        uses: cssnr/mozilla-addon-update-action@v1
-#        with:
-#          url: "https://github.com/${{ github.repository }}/releases/download/{version}/${{ env.PACKAGE_NAME }}-firefox.xpi"
-#          addon_id: ${{ env.MOZILLA_ID }}
-#          version: ${{ github.ref_name }}
-#
-#      - name: "Debug ${{ env.UPDATE_JSON }}"
-#        continue-on-error: true
-#        run: |
-#          git status
-#          echo "::group::cat ${{ env.UPDATE_JSON }}"
-#          cat -n "${{ env.UPDATE_JSON }}"
-#          echo "::endgroup::"
-#
-#      #- name: "Commit files"
-#      #  run: |
-#      #    git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
-#      #    git config --local user.name "github-actions[bot]"
-#      #    git commit -a -m "Update ${{ env.UPDATE_JSON }}"
-#      #
-#      #- name: "Push changes"
-#      #  uses: ad-m/github-push-action@master
-#      #  with:
-#      #    github_token: ${{ secrets.GITHUB_TOKEN }}
-#      #    branch: master
-#
-#      #- name: "Create App Token"
-#      #  if: ${{ !github.event.release.prerelease }}
-#      #  id: app
-#      #  uses: actions/create-github-app-token@v2
-#      #  with:
-#      #    app-id: 146360
-#      #    private-key: ${{ secrets.APP_PRIVATE_KEY }}
-#      #    owner: ${{ github.repository_owner }}
-#
-#      - name: "Commit Action"
-#        id: commit
-#        uses: suzuki-shunsuke/commit-action@f12e2d628a4ab72dcefe7890ae07e8dbf1e201b9 # v0.1.1
-#        with:
-#          branch: master
-#          #repository: ${{ github.repository }}
-#          #files: ${{ env.UPDATE_JSON }}
-#          commit_message: "Bump ${{ env.UPDATE_JSON }} to ${{ github.ref_name }}"
-#          #github_token: ${{ steps.app.outputs.token }}
-#          app_id: 146360
-#          app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
-#          fail_on_self_push: false
-#
-#  check:
-#    name: "Check"
-#    if: ${{ always() }}
-#    runs-on: Ubuntu-latest
-#    timeout-minutes: 5
-#    needs: [build, release, publish-mozilla, update-mozilla]
-#
-#    permissions:
-#      contents: write
-#
-#    steps:
-#      - name: "Alls Green"
-#        uses: re-actors/alls-green@release/v1
-#        with:
-#          jobs: ${{ toJSON(needs) }}
-#          #allowed-failures: release
-#          #allowed-skips: release
-#
-#      #- name: "Cleanup Release"
-#      #  if: ${{ failure() }}
-#      #  env:
-#      #    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#      #  run: |
-#      #    echo -e "\n## Cleanup Release\n\n" >> "$GITHUB_STEP_SUMMARY"
-#      #    echo -e "Deleting Release and Tag: \`${{ github.ref_name }}\`\n\n" >> "$GITHUB_STEP_SUMMARY"
-#      #    if gh release delete "${{ github.ref_name }}" --repo "${{ github.repository }}" --cleanup-tag;then
-#      #      echo -e "✅ Cleanup Success.\n" >> "$GITHUB_STEP_SUMMARY"
-#      #    else
-#      #      echo -e "⛔ Cleanup Failed!\n" >> "$GITHUB_STEP_SUMMARY"
-#      #    fi
-#
-#      - name: "Send Failure Notification"
-#        if: ${{ failure() }}
-#        uses: sarisia/actions-status-discord@eb045afee445dc055c18d3d90bd0f244fd062708 # v1.16.0
-#        with:
-#          webhook: ${{ secrets.DISCORD_WEBHOOK }}
-#          description: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  publish-chrome:
+    name: "Publish Chrome"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [build]
 
-#  publish-chrome:
-#    name: 'Publish Chrome'
-#    runs-on: ubuntu-latest
-#    timeout-minutes: 30
-#    needs: [build]
-#
-#    steps:
-#      - name: 'Download Artifacts'
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: artifacts
-#
-#      - name: 'Setup Node'
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: 18
-#
-#      - name: 'Install chrome-webstore-upload-cli'
-#        run: |-
-#          npm install -g chrome-webstore-upload-cli
-#
-#      - name: Upload step
-#        run: |-
-#          export archive=$(ls *chrome*.zip)
-#          chrome-webstore-upload upload \\
-#            --source chrome-extension-${archive} \\
-#            --extension-id ${{ env.CHROME_ID }} \\
-#            --client-id ${{ secrets.CI_GOOGLE_CLIENT_ID }} \\
-#            --client-secret ${{ secrets.CI_GOOGLE_CLIENT_SECRET }} \\
-#            --refresh-token ${{ secrets.CI_GOOGLE_REFRESH_TOKEN }}
-#
-#      - name: 'Rename Signed Artifact'
-#        working-directory: web-ext-artifacts
-#        run: |-
-#          ls -l .
-#          mv *.xpi "${{ needs.build.outputs.package_name }}-chrome.xpi"
-#          ls -l .
-#
-#      - name: 'Upload to Actions'
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: signed
-#          path: web-ext-artifacts
-#
-#      - name: 'Upload to Release'
-#        uses: svenstaro/upload-release-action@v2
-#        with:
-#          repo_token: ${{ secrets.GITHUB_TOKEN }}
-#          file: web-ext-artifacts/*
-#          tag: ${{ github.ref }}
-#          overwrite: true
-#          file_glob: true
+    environment:
+      name: chrome
+      url: "https://chromewebstore.google.com/detail/${{ env.CHROME_ID }}"
 
+    steps:
+      - name: "Download Artifacts"
+        uses: actions/download-artifact@v8
+        with:
+          name: artifacts
+
+      - name: "Validate"
+        run: |
+          ls -lAh .
+          stat "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-chrome.zip"
+          yq -e '.version | test("${{ github.event.release.tag_name }}")' chrome-mv3/manifest.json
+          echo "::group::ls chrome-mv3"
+          ls -lAh chrome-mv3
+          echo "::endgroup::"
+          echo "::group::cat chrome-mv3/manifest.json"
+          cat chrome-mv3/manifest.json
+          echo -e "\n::endgroup::"
+
+      - name: "Install PBE"
+        run: |
+          npm i -g publish-browser-extension
+          npx publish-extension --version
+
+      - name: "Publish Extension"
+        run: |
+          npx publish-extension \
+            --chrome-zip "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-chrome.zip" \
+            --chrome-extension-id ${{ env.CHROME_ID }} \
+            --chrome-client-id ${{ secrets.WEBSTORE_CLIENT_ID }} \
+            --chrome-client-secret ${{ secrets.WEBSTORE_CLIENT_SECRET }} \
+            --chrome-refresh-token  ${{ secrets.WEBSTORE_REFRESH_TOKEN }} \
+            --chrome-publish-target default \
+            --chrome-deploy-percentage 100 \
+            --chrome-skip-submit-review
+
+  publish-mozilla:
+    name: "Publish Mozilla"
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    needs: [build, publish-chrome]
+
+    permissions:
+      contents: write
+
+    environment:
+      name: mozilla
+      url: "${{ github.server_url }}/${{ github.repository }}/releases/latest/download/${{ env.PACKAGE_NAME }}-firefox.xpi"
+
+    steps:
+      - name: "Download Artifacts"
+        uses: actions/download-artifact@v8
+        with:
+          name: artifacts
+
+      - name: "Generate Release Notes"
+        id: notes
+        run: |
+          notes="Full Release Notes: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }}"
+          echo "notes=$notes" >> "$GITHUB_OUTPUT"
+
+      - name: "Write AMO Metadata"
+        uses: jsdaniell/create-json@b8e77fa01397ca39cc4a6198cc29a3be5481afef # v1.2.3
+        with:
+          name: "amo-metadata.json"
+          json: '{"version": {"release_notes": {"en-US": "${{ steps.notes.outputs.notes }}"}}}'
+
+      - name: "Validate"
+        run: |
+          ls -lAh .
+          stat "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-sources.zip"
+          yq -e '.version | test("${{ github.event.release.tag_name }}")' firefox-mv3/manifest.json
+          echo "::group::ls firefox-mv3"
+          ls -lAh firefox-mv3
+          echo "::endgroup::"
+          echo "::group::cat firefox-mv3/manifest.json"
+          cat firefox-mv3/manifest.json
+          echo -e "\n::endgroup::"
+          echo "::group::cat amo-metadata.json"
+          cat amo-metadata.json
+          echo -e "\n::endgroup::"
+
+      - name: "Sign Mozilla Addon"
+        run: |
+          npx web-ext sign \
+            --api-key="${{ secrets.FIREFOX_API_KEY }}" \
+            --api-secret="${{ secrets.FIREFOX_API_SECRET }}" \
+            --channel=unlisted \
+            --source-dir="firefox-mv3" \
+            --amo-metadata="amo-metadata.json" \
+            --upload-source-code="${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-sources.zip"
+
+      - name: "Debug Artifacts"
+        continue-on-error: true
+        run: |
+          ls -lAh web-ext-artifacts
+          echo "::group::ls ."
+          ls -lAh .
+          echo "::endgroup::"
+
+      - name: "Upload to Actions"
+        uses: actions/upload-artifact@v7
+        with:
+          name: web-ext-artifacts
+          path: web-ext-artifacts
+
+      - name: "Upload to Release"
+        uses: cssnr/upload-release-action@v1
+        with:
+          overwrite: true
+          #files: "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-sources.zip"
+          globs: web-ext-artifacts/*.xpi
+          names: "${{ env.PACKAGE_NAME }}-firefox.xpi"
+
+  update-mozilla:
+    name: "Update Mozilla"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: [publish-mozilla]
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: "Mozilla Addon Update"
+        uses: cssnr/mozilla-addon-update-action@v1
+        with:
+          url: "https://github.com/${{ github.repository }}/releases/download/{version}/${{ env.PACKAGE_NAME }}-firefox.xpi"
+          addon_id: ${{ env.MOZILLA_ID }}
+          version: ${{ github.ref_name }}
+
+      - name: "Debug ${{ env.UPDATE_JSON }}"
+        continue-on-error: true
+        run: |
+          git status
+          echo "::group::cat ${{ env.UPDATE_JSON }}"
+          cat "${{ env.UPDATE_JSON }}"
+          echo -e "\n::endgroup::"
+
+      - name: "Commit Action"
+        id: commit
+        uses: suzuki-shunsuke/commit-action@f12e2d628a4ab72dcefe7890ae07e8dbf1e201b9 # v0.1.1
+        with:
+          branch: master
+          #repository: ${{ github.repository }}
+          #files: ${{ env.UPDATE_JSON }}
+          commit_message: "Bump ${{ env.UPDATE_JSON }} to ${{ github.ref_name }}"
+          #github_token: ${{ steps.app.outputs.token }}
+          app_id: 146360
+          app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
+          fail_on_self_push: false
+
+  check:
+    name: "Check"
+    if: ${{ always() }}
+    runs-on: Ubuntu-latest
+    timeout-minutes: 5
+    needs: [build, release, publish-chrome, publish-mozilla, update-mozilla]
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: "Alls Green"
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
+          #allowed-failures: release
+          #allowed-skips: release
+
+      #- name: "Cleanup Release"
+      #  if: ${{ failure() }}
+      #  env:
+      #    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #  run: |
+      #    echo -e "\n## Cleanup Release\n\n" >> "$GITHUB_STEP_SUMMARY"
+      #    echo -e "Deleting Release and Tag: \`${{ github.ref_name }}\`\n\n" >> "$GITHUB_STEP_SUMMARY"
+      #    if gh release delete "${{ github.ref_name }}" --repo "${{ github.repository }}" --cleanup-tag;then
+      #      echo -e "✅ Cleanup Success.\n" >> "$GITHUB_STEP_SUMMARY"
+      #    else
+      #      echo -e "⛔ Cleanup Failed!\n" >> "$GITHUB_STEP_SUMMARY"
+      #    fi
+
+      - name: "Send Notification"
+        if: ${{ !cancelled() }}
+        uses: sarisia/actions-status-discord@eb045afee445dc055c18d3d90bd0f244fd062708 # v1.16.0
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          description: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

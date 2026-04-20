@@ -101,7 +101,7 @@ This project uses the WXT framework.
 
 To customize the config for development add a `web-ext.config.ts` to the project root.
 
-```ts
+```typescript
 // web-ext.config.ts
 import { defineWebExtConfig } from 'wxt'
 

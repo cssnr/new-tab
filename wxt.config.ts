@@ -39,7 +39,7 @@ export default defineConfig({
         'history',
         'search',
         'topSites',
-        'favicon',
+        ...(!isFirefox ? ['favicon'] : []),
       ],
 
       commands: {
@@ -84,9 +84,6 @@ export default defineConfig({
       console.log('build:manifestGenerated:', wxt.config.browser)
       if (manifest.action) manifest.action.default_icon = manifest.icons
       if (manifest.sidebar_action) manifest.sidebar_action.default_icon = manifest.icons
-      if (wxt.config.browser === 'firefox') {
-        manifest.permissions = manifest.permissions?.filter((p) => p !== 'favicon')
-      }
     },
     'build:done': async (wxt) => {
       const src = join(process.cwd(), 'node_modules/simple-icons/icons')
