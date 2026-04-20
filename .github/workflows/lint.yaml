@@ -33,8 +33,7 @@ jobs:
 
       #- name: "eslint"
       #  if: ${{ !cancelled() }}
-      #  run: |
-      #    npm run lint
+      #  run: npm run lint
 
       - name: "web-ext"
         if: ${{ !cancelled() }}
