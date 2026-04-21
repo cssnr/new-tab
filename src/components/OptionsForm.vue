@@ -168,6 +168,17 @@ function urlChange(id: string, value: string) {
         <div class="invalid-feedback">Invalid URL</div>
       </div>
 
+      <FormInput
+        class="col-12"
+        v-model="options.githubToken"
+        id="githubToken"
+        label="GitHub PAT"
+        placeholder="ghp_xxx"
+        tooltip="Needs To Read Issues, so That Perm..."
+        fa="fa-solid fa-t"
+        type="password"
+      />
+
       <BackgroundForm class="col-12" />
     </div>
 

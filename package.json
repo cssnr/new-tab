@@ -26,6 +26,7 @@
     "bootstrap": "^5.3.8",
     "camelcase": "^9.0.0",
     "idb": "^8.0.3",
+    "octokit": "^5.0.5",
     "simple-icons": "^16.17.0",
     "vue": "^3.5.32"
   },
