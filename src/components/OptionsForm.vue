@@ -68,7 +68,7 @@ function urlChange(id: string, value: string) {
           class="col-12 col-sm-6 mb-2"
           v-model="options.expandedRows"
           id="expandedRows"
-          label="Expanded Rows"
+          label="Expand Rows"
           placeholder="# of Items"
           tooltip="Search Box Expanded Rows"
           fa="fa-solid fa-border-top-left"
