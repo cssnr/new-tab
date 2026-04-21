@@ -3,6 +3,8 @@
 [![Chrome Web Store Version](https://img.shields.io/chrome-web-store/v/goholgjajaneidafddjpiaphbdaalbhm?label=chrome&logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/geo-image/goholgjajaneidafddjpiaphbdaalbhm)
 [![GitHub Release Version](https://img.shields.io/github/v/release/cssnr/new-tab?logo=github)](https://github.com/cssnr/new-tab/releases/latest)
 [![GitHub Locales](https://img.shields.io/github/directory-file-count/cssnr/new-tab/src/locales?type=file&extension=yaml&logo=libretranslate&label=locales)](https://github.com/cssnr/new-tab/tree/master/src/locales)
+[![Deployment Chrome](https://img.shields.io/github/deployments/cssnr/new-tab/chrome?logo=googlechrome&logoColor=white&label=chrome)](https://github.com/cssnr/new-tab/deployments/chrome)
+[![Deployment Mozilla](https://img.shields.io/github/deployments/cssnr/new-tab/mozilla?logo=firefox&logoColor=white&label=mozilla)](https://github.com/cssnr/new-tab/deployments/mozilla)
 [![Workflow Release](https://img.shields.io/github/actions/workflow/status/cssnr/new-tab/release.yaml?logo=norton&logoColor=white&label=release)](https://github.com/cssnr/new-tab/actions/workflows/release.yaml)
 [![Workflow Lint](https://img.shields.io/github/actions/workflow/status/cssnr/new-tab/lint.yaml?logo=norton&logoColor=white&label=lint)](https://github.com/cssnr/new-tab/actions/workflows/lint.yaml)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/cssnr/new-tab?logo=listenhub&label=updated)](https://github.com/cssnr/new-tab/pulse)
