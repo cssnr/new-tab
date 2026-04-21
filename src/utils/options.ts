@@ -13,6 +13,7 @@ export const defaultOptions = {
   newTabTitle: 'New Tab',
   githubUrl: 'https://github.com',
   githubToken: '',
+  githubCooldown: 5,
   folderId: '',
   numBookmarks: 12,
 

@@ -5,8 +5,9 @@ import ToastAlerts from '@/components/ToastAlerts.vue'
 import BackToTop from '@/components/BackToTop.vue'
 import PanelHeader from '@/components/PanelHeader.vue'
 import PageFooter from '@/components/PageFooter.vue'
-import SearchBox from '@/components/SearchBox.vue'
 import OptionsOffscreen from '@/components/OptionsOffscreen.vue'
+// import SearchBox from '@/components/SearchBox.vue'
+import GitHubIssues from '@/components/GitHubIssues.vue'
 
 console.debug('%c page/App.vue', 'color: Lime')
 
@@ -21,7 +22,8 @@ useTitle(i18n.t('page.title'))
   <main class="flex-grow-1 overflow-auto">
     <div class="container-fluid p-3 h-100">
       <h1>{{ i18n.t('page.title') }}</h1>
-      <SearchBox class="m-3" />
+      <!--<SearchBox class="m-3" />-->
+      <GitHubIssues />
     </div>
   </main>
 

@@ -169,7 +169,7 @@ function urlChange(id: string, value: string) {
       </div>
 
       <FormInput
-        class="col-12"
+        class="col-6"
         v-model="options.githubToken"
         id="githubToken"
         label="GitHub PAT"
@@ -177,6 +177,20 @@ function urlChange(id: string, value: string) {
         tooltip="Needs To Read Issues, so That Perm..."
         fa="fa-solid fa-t"
         type="password"
+      />
+
+      <FormInput
+        class="col-6"
+        v-model="options.githubCooldown"
+        id="githubCooldown"
+        label="GitHub CD"
+        placeholder="# of Minutes"
+        tooltip="GitHub Update Cooldown in Minutes"
+        fa="fa-regular fa-clock"
+        type="number"
+        step="1"
+        min="1"
+        max="60"
       />
 
       <BackgroundForm class="col-12" />

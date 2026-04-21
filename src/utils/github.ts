@@ -1,3 +1,5 @@
+import { Octokit } from 'octokit'
+
 interface Repository {
   owner: string
   name: string
@@ -5,7 +7,7 @@ interface Repository {
 }
 
 export function getOwnerRepo(fullUrl?: string) {
-  console.log('getOwnerRepo:', fullUrl)
+  // console.log('getOwnerRepo:', fullUrl)
   if (!fullUrl) return null
   const hosts = ['github.com']
   try {
@@ -25,5 +27,23 @@ export function getOwnerRepo(fullUrl?: string) {
   } catch (e) {
     console.debug('error:', e)
     return null
+  }
+}
+
+export async function getIssues(githubToken: string) {
+  console.log('%c getIssues:', 'color: SpringGreen', githubToken.slice(0, 10))
+  try {
+    const octokit = new Octokit({ auth: githubToken })
+    const params: Parameters<typeof octokit.rest.search.issuesAndPullRequests>[0] = {
+      q: 'is:open is:issue involves:@me',
+    }
+    console.log('params:', params)
+    const { data, headers } = await octokit.rest.search.issuesAndPullRequests(params)
+    console.log('headers:', headers)
+    console.log('data.items?.length:', data.items?.length)
+    return data.items
+  } catch (e) {
+    console.error(e)
+    console.log('updateIssues error status:', (e as any)?.status)
   }
 }

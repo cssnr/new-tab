@@ -33,6 +33,7 @@ export default defineConfig({
       homepage_url: 'https://github.com/cssnr/new-tab',
 
       permissions: [
+        // 'alarms',
         'contextMenus',
         'storage',
         'bookmarks',
