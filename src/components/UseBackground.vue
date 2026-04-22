@@ -6,7 +6,7 @@ const bgRef = ref<'bgNone' | 'bgPicture' | 'bgVideo'>('bgNone')
 const pictureURL = ref('')
 const videoURL = ref('')
 
-const video = useTemplateRef('videoEl')
+const video = useTemplateRef('video')
 
 function setBackground(options: Options) {
   console.log('setBackground:', options.radioBackground)
@@ -55,7 +55,7 @@ onUnmounted(() => chrome.storage.sync.onChanged.removeListener(onChanged))
 
 <template>
   <Teleport to="body">
-    <video ref="videoEl" class="d-none" playsinline autoplay muted loop></video>
+    <video ref="video" class="d-none" playsinline autoplay muted loop></video>
   </Teleport>
 </template>
 
