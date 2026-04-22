@@ -106,7 +106,7 @@ onUnmounted(() => {
 
   <main class="flex-grow-1 overflow-auto d-flex flex-column p-1">
     <div style="height: 40% !important">
-      <div class="d-flex align-items-center justify-content-center w-100 h-100 pb-3" style="min-height: 200px">
+      <div class="d-flex align-items-center justify-content-center w-100 h-100 pb-3 pe-3">
         <div class="glass-outline rounded rounded-3 my-0 mx-auto w-100 h-100 d-flex flex-column">
           <div class="p-3 flex-grow-1 overflow-auto">
             <GitHubRepos v-if="options.githubUrl" ref="githubSearch" :github-url="options.githubUrl" />
@@ -116,7 +116,7 @@ onUnmounted(() => {
     </div>
 
     <!--TODO: Implement scrolling on table and remove overflow-auto-->
-    <div class="overflow-auto" style="height: 60% !important">
+    <div class="d-flex flex-column overflow-hidden" style="height: 60% !important">
       <GitHubIssues />
     </div>
   </main>
