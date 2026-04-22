@@ -61,6 +61,7 @@ export async function updateIssues(options: Options) {
     chrome.storage.local
       .set({ issues: results, issuesUpdated: Date.now() })
       .catch(console.warn)
+    // NOTE: return value is NOT used...
     return results
   } else {
     console.log('%c updateIssues - NO Update Needed!', 'color: SpringGreen')

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { getTextColor, getTimeSince } from '@/utils'
 import { getOptions } from '@/utils/options.ts'
 import { getOwnerRepo, updateIssues } from '@/utils/github.ts'
@@ -7,36 +7,36 @@ import type { Endpoints } from '@octokit/types'
 
 type SearchIssuesResponse = Endpoints['GET /search/issues']['response']['data']['items']
 
-const issues = ref<SearchIssuesResponse | null>(null)
+const issuesRef = ref<SearchIssuesResponse | null>(null)
 
-const parsedIssues = computed(() => issues.value?.map((issue) => ({ ...issue, repo: getOwnerRepo(issue.html_url) })))
+const parsedIssues = computed(() => issuesRef.value?.map((issue) => ({ ...issue, repo: getOwnerRepo(issue.html_url) })))
+
+if (!chrome.storage.local.onChanged.hasListener(onChanged)) {
+  chrome.storage.local.onChanged.addListener(onChanged)
+}
+
+async function onChanged(changes: Record<string, any>) {
+  console.log('GitHubIssues.vue - onChanged:', changes)
+  const items = changes.issues // NOTE: Lazy Typing...
+  console.log('items:', items)
+  if (!items?.newValue) return
+  console.log('items.newValue.issues:', items.newValue)
+  issuesRef.value = items.newValue
+}
 
 onMounted(async () => {
   const options = await getOptions()
-  console.log('options.githubToken:', options.githubToken.slice(0, 10))
+  console.log('GitHubIssues.vue - onMounted:', options.githubToken.slice(0, 10))
   // TODO: Ensure this view is not shown if no githubToken is set...
   if (!options.githubToken) return console.log('%cMissing githubToken', 'color: Yellow')
 
-  const storage = await chrome.storage.local.get(['issues', 'issuesUpdated'])
-  // console.log('storage:', storage)
-  console.log('issues:', storage.issues)
-  if (storage.issues) issues.value = storage.issues as SearchIssuesResponse
+  const { issues } = await chrome.storage.local.get(['issues'])
+  console.log('issues:', issues)
+  if (issues) issuesRef.value = issues as SearchIssuesResponse
 
-  updateIssues(options).then((results) => {
-    console.log('results:', results)
-    if (results) issues.value = results
-  })
-
-  // console.log('issuesUpdated:', storage.issuesUpdated)
-  // if (needsUpdate(options.githubCooldown, storage.issuesUpdated as number | undefined)) {
-  //   console.log('%c UPDATING ISSUES...', 'color: Yellow')
-  //   getIssues(options.githubToken).then((results) => {
-  //     console.log('results:', results)
-  //     issues.value = results
-  //     chrome.storage.local.set({ issues: results, issuesUpdated: Date.now() })
-  //   })
-  // }
+  updateIssues(options).catch(console.warn)
 })
+onUnmounted(() => chrome.storage.local.onChanged.removeListener(onChanged))
 </script>
 
 <template>
