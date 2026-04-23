@@ -47,6 +47,7 @@ async function setBackground(options: Options) {
       const imageUrl = URL.createObjectURL(randomElement.data)
       console.log('imageUrl:', imageUrl)
       document.body.style.background = `url('${imageUrl}') no-repeat center fixed`
+      document.body.style.backgroundSize = 'cover'
     }
   } else {
     document.body.style.cssText = ''
