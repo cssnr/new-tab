@@ -82,7 +82,7 @@ async function confirmDelete(e: MouseEvent) {
 
 <template>
   <div class="container">
-    <div class="row g-2">
+    <div class="row g-2 m-0">
       <div class="col-6 col-sm-4 col-md-3 col-lg-2" v-for="(image, i) in imagesRef" :key="i">
         <div
           class="position-relative overflow-hidden rounded rounded-3 border border-3 ratio ratio-1x1 bg-opacity-50 bg-black"
@@ -101,7 +101,6 @@ async function confirmDelete(e: MouseEvent) {
             <video
               v-if="image.data.type.startsWith('video')"
               :src="getImageUrl(image.data)"
-              :alt="`Video ${image.id}`"
               class="wallpaper-img w-100 h-100 object-fit-cover"
               :data-idx="i"
               @click="selectItem(image)"
@@ -121,6 +120,10 @@ async function confirmDelete(e: MouseEvent) {
           </div>
         </div>
       </div>
+    </div>
+    <div v-if="!imagesRef?.length" class="border border-3 border-dashed rounded rounded-3 text-center p-1">
+      No saved media. Drag/drop an
+      <i class="fa-regular fa-file-image"></i> Image or <i class="fa-regular fa-file-video"></i> Video here...
     </div>
   </div>
 
@@ -152,7 +155,6 @@ async function confirmDelete(e: MouseEvent) {
               v-if="selectedImage && selectedImage.data.type.startsWith('video')"
               class="modal-img"
               :src="getImageUrl(selectedImage.data)"
-              alt="trash"
               playsinline
               autoplay
               muted
@@ -185,5 +187,9 @@ async function confirmDelete(e: MouseEvent) {
   max-height: 50vh;
   padding: 0.15rem;
   border-radius: 0.5rem;
+}
+
+.border-dashed {
+  border-style: dashed !important;
 }
 </style>

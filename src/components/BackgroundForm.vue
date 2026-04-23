@@ -24,10 +24,10 @@ watch(
 )
 
 const radios = [
-  { id: 'bgNone', text: i18n.t('background.none') },
-  { id: 'bgPicture', text: i18n.t('background.picture') },
-  { id: 'bgVideo', text: i18n.t('background.video') },
-  { id: 'bgLocal', text: i18n.t('background.local') },
+  { id: 'bgNone', fa: 'fa-regular fa-square', text: i18n.t('background.none') },
+  { id: 'bgPicture', fa: 'fa-regular fa-image', text: i18n.t('background.picture') },
+  { id: 'bgVideo', fa: 'fa-solid  fa-video', text: i18n.t('background.video') },
+  { id: 'bgLocal', fa: 'fa-regular fa-floppy-disk', text: i18n.t('background.local') },
 ]
 
 // NOTE: This was ported from VanillaJS and may need refactoring
@@ -47,9 +47,7 @@ const radios = [
             :id="radio.id"
             :value="radio.id"
           />
-          <label class="form-check-label" :for="radio.id">
-            <i class="fa-regular fa-square"></i> {{ radio.text }}
-          </label>
+          <label class="form-check-label" :for="radio.id"> <i :class="radio.fa"></i> {{ radio.text }} </label>
         </div>
       </div>
     </form>
