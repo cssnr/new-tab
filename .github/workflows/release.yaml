@@ -81,25 +81,34 @@ jobs:
           cat chrome-mv3/manifest.json
           echo -e "\n::endgroup::"
 
-      - name: "Install PBE"
-        run: |
-          npm i -g publish-browser-extension
-          npx publish-extension --version
+      #- name: "Install PBE"
+      #  run: |
+      #    npm i -g publish-browser-extension
+      #    npx publish-extension --version
+      #
+      ## NOTE: This does not support Firefox amo-metadata
+      #- name: "Publish Extension"
+      #  run: |
+      #    npx publish-extension \
+      #      --chrome-zip "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-chrome.zip" \
+      #      --chrome-extension-id ${{ env.CHROME_ID }} \
+      #      --chrome-client-id ${{ secrets.WEBSTORE_CLIENT_ID }} \
+      #      --chrome-client-secret ${{ secrets.WEBSTORE_CLIENT_SECRET }} \
+      #      --chrome-refresh-token  ${{ secrets.WEBSTORE_REFRESH_TOKEN }} \
+      #      --chrome-publish-target default \
+      #      --chrome-deploy-percentage 100 \
+      #      --chrome-skip-submit-review
 
-      # NOTE: This does not support Firefox amo-metadata
-      - name: "Publish Extension"
-        run: |
-          npx publish-extension \
-            --chrome-zip "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-chrome.zip" \
-            --chrome-extension-id ${{ env.CHROME_ID }} \
-            --chrome-client-id ${{ secrets.WEBSTORE_CLIENT_ID }} \
-            --chrome-client-secret ${{ secrets.WEBSTORE_CLIENT_SECRET }} \
-            --chrome-refresh-token  ${{ secrets.WEBSTORE_REFRESH_TOKEN }} \
-            --chrome-publish-target default \
-            --chrome-deploy-percentage 100 \
-            --chrome-skip-submit-review
+      - name: "Web Store Publish"
+        uses: cssnr/webstore-publish-action@master
+        with:
+          extension_id: ${{ env.CHROME_ID }}
+          publisher_id: ${{env.PUBLISHER_ID}}
+          json_data: ${{ secrets.WEBSTORE_JSON }}
+          zip_file: "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-chrome.zip"
+          submit: false
 
-      # TODO: This only submits for review! Need automation to upload signed release...
+      # TODO: This only submits for review! But maybe now I can download the crx with the token...
 
   publish-mozilla:
     # https://mozilla.github.io/addons-server/topics/api/index.html
