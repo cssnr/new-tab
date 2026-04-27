@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref, useTemplateRef } from 'vue'
 import { type Options, getOptions } from '@/utils/options.ts'
+import { useWallpaperDB } from '@/composables/useWallpaperDB.ts'
 
-const bgRef = ref<'bgNone' | 'bgPicture' | 'bgVideo'>('bgNone')
+const { deleteId, getAll, getSelected, toggleSelected, wallpaperDBChannel } = useWallpaperDB()
+
+const bgRef = ref<RadioBackground>('bgNone')
 const pictureURL = ref('')
 const videoURL = ref('')
 
 const video = useTemplateRef('video')
 
-function setBackground(options: Options) {
+async function setBackground(options: Options) {
   console.log('setBackground:', options.radioBackground)
   if (!video.value) return console.warn('no video element')
 
@@ -26,6 +29,29 @@ function setBackground(options: Options) {
     video.value.src = options.videoURL
     video.value.classList.remove('d-none')
     document.body.style.cssText = ''
+  } else if (options.radioBackground === 'bgLocal') {
+    video.value.classList.add('d-none')
+    document.body.style.cssText = ''
+    // TODO: WIP - use selected background
+    const selected = await getSelected()
+    console.log('selected:', selected)
+    const getRandomElement = (arr: any[]) => arr[Math.floor(Math.random() * arr.length)]
+    const randomElement = getRandomElement(selected)
+    console.log('rand:', randomElement)
+    if (randomElement?.data) {
+      // Convert the Blob to an object URL
+      const srcUrl = URL.createObjectURL(randomElement.data)
+      console.log('srcUrl:', srcUrl)
+      if (randomElement.data.type.startsWith('image')) {
+        document.body.style.background = `url('${srcUrl}') no-repeat center fixed`
+        document.body.style.backgroundSize = 'cover'
+        video.value.classList.add('d-none')
+      } else if (randomElement.data.type.startsWith('video')) {
+        video.value.src = srcUrl
+        video.value.classList.remove('d-none')
+        document.body.style.cssText = ''
+      }
+    }
   } else {
     document.body.style.cssText = ''
     video.value.classList.add('d-none')

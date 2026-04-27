@@ -71,6 +71,9 @@ background:
   video: Video
   videoTip: URL to a Web Video
   videoLabel: Background Video URL
+  local: Local
+  localTip: Local Image
+  localLabel: Upload a File
 
 keyboard:
   # components/KeyboardShortcuts.vue

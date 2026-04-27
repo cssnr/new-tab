@@ -1,13 +1,11 @@
 # Contributing
 
-- [Development](#development)
-- [Building](#building)
-- [WXT](#wxt)
+- [Application](#application)
+  - [Developing](#developing)
+  - [Building](#building)
+  - [WXT](#wxt)
 
-> [!WARNING]  
-> This guide is not complete and just the bare minimum.
-
-## Development
+# Application
 
 Install dependencies:
 
@@ -15,13 +13,18 @@ Install dependencies:
 npm i
 ```
 
+## Developing
+
+Note: WXT launches a browser by default when you run `dev`.
+See [Browser Opening](#browser-opening) modify the browser or disable this behavior.
+
 ### Chrome
 
 ```shell
 npm run dev
 ```
 
-Open Chrome and navigate to `chrome://extensions/`, enable "Developer mode",
+**Manually,** open Chrome and navigate to `chrome://extensions/`, enable "Developer mode",
 and load the unpacked extension from the `.output` directory.
 
 ### Firefox
@@ -30,7 +33,7 @@ and load the unpacked extension from the `.output` directory.
 npm run dev:ff
 ```
 
-Open Firefox and navigate to `about:debugging#/runtime/this-firefox`, then click "Load Temporary Add-on..."
+**Manually,** open Firefox and navigate to `about:debugging#/runtime/this-firefox`, then click "Load Temporary Add-on..."
 and load the unpacked extension from the `.output` directory.
 
 ### Android
@@ -99,7 +102,11 @@ This project uses the WXT framework.
 
 - <https://wxt.dev/>
 
+### Browser Opening
+
 To customize the config for development add a `web-ext.config.ts` to the project root.
+
+The binaries allow you to pick which browser opens. To disable auto-opening set `disabled: true`.
 
 ```typescript
 // web-ext.config.ts
@@ -108,7 +115,16 @@ import { defineWebExtConfig } from 'wxt'
 export default defineWebExtConfig({
   binaries: {
     firefox: 'C:/Program Files/Firefox Developer Edition/firefox.exe',
+    chrome: 'C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe',
   },
-  disabled: false,
+  // disabled: true,
 })
 ```
+
+### Loading Unpacked
+
+Additional notes on loading temporary/unpacked extensions.
+
+- [Mozilla Firefox](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/)
+- [Google Chrome](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked)
+- [Microsoft Edge](https://learn.microsoft.com/en-us/microsoft-edge/extensions/getting-started/extension-sideloading#locally-installing-and-running-an-extension)

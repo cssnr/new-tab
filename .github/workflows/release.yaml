@@ -81,25 +81,34 @@ jobs:
           cat chrome-mv3/manifest.json
           echo -e "\n::endgroup::"
 
-      - name: "Install PBE"
-        run: |
-          npm i -g publish-browser-extension
-          npx publish-extension --version
+      #- name: "Install PBE"
+      #  run: |
+      #    npm i -g publish-browser-extension
+      #    npx publish-extension --version
+      #
+      ## NOTE: This does not support Firefox amo-metadata
+      #- name: "Publish Extension"
+      #  run: |
+      #    npx publish-extension \
+      #      --chrome-zip "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-chrome.zip" \
+      #      --chrome-extension-id ${{ env.CHROME_ID }} \
+      #      --chrome-client-id ${{ secrets.WEBSTORE_CLIENT_ID }} \
+      #      --chrome-client-secret ${{ secrets.WEBSTORE_CLIENT_SECRET }} \
+      #      --chrome-refresh-token  ${{ secrets.WEBSTORE_REFRESH_TOKEN }} \
+      #      --chrome-publish-target default \
+      #      --chrome-deploy-percentage 100 \
+      #      --chrome-skip-submit-review
 
-      # NOTE: This does not support Firefox amo-metadata
-      - name: "Publish Extension"
-        run: |
-          npx publish-extension \
-            --chrome-zip "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-chrome.zip" \
-            --chrome-extension-id ${{ env.CHROME_ID }} \
-            --chrome-client-id ${{ secrets.WEBSTORE_CLIENT_ID }} \
-            --chrome-client-secret ${{ secrets.WEBSTORE_CLIENT_SECRET }} \
-            --chrome-refresh-token  ${{ secrets.WEBSTORE_REFRESH_TOKEN }} \
-            --chrome-publish-target default \
-            --chrome-deploy-percentage 100 \
-            --chrome-skip-submit-review
+      - name: "Web Store Publish"
+        uses: cssnr/webstore-publish-action@master
+        with:
+          extension_id: ${{ env.CHROME_ID }}
+          publisher_id: ${{env.PUBLISHER_ID}}
+          json_data: ${{ secrets.WEBSTORE_JSON }}
+          zip_file: "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-chrome.zip"
+          submit: false
 
-      # TODO: This only submits for review! Need automation to upload signed release...
+      # TODO: This only submits for review! But maybe now I can download the crx with the token...
 
   publish-mozilla:
     # https://mozilla.github.io/addons-server/topics/api/index.html
@@ -124,7 +133,7 @@ jobs:
       - name: "Generate Release Notes"
         id: notes
         run: |
-          notes="Full Release Notes: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.ref_name }}"
+          notes="Full Release Notes: ${{ github.server_url }}/${{ github.repository }}/releases/tag/${{ github.event.release.tag_name }}"
           echo "notes=$notes" >> "$GITHUB_OUTPUT"
 
       - name: "Write AMO Metadata"
@@ -149,10 +158,13 @@ jobs:
           echo -e "\n::endgroup::"
 
       - name: "Sign Mozilla Addon"
+        env:
+          FIREFOX_API_KEY: ${{ secrets.FIREFOX_API_KEY }}
+          FIREFOX_API_SECRET: ${{ secrets.FIREFOX_API_SECRET }}
         run: |
           npx web-ext sign \
-            --api-key="${{ secrets.FIREFOX_API_KEY }}" \
-            --api-secret="${{ secrets.FIREFOX_API_SECRET }}" \
+            --api-key="${FIREFOX_API_KEY}" \
+            --api-secret="${FIREFOX_API_SECRET}" \
             --channel=unlisted \
             --source-dir="firefox-mv3" \
             --amo-metadata="amo-metadata.json" \
@@ -200,7 +212,7 @@ jobs:
         with:
           url: "https://github.com/${{ github.repository }}/releases/download/{version}/${{ env.PACKAGE_NAME }}-firefox.xpi"
           addon_id: ${{ env.MOZILLA_ID }}
-          version: ${{ github.ref_name }}
+          version: ${{ github.event.release.tag_name }}
 
       - name: "Debug ${{ env.UPDATE_JSON }}"
         continue-on-error: true
@@ -217,7 +229,7 @@ jobs:
           branch: master
           #repository: ${{ github.repository }}
           #files: ${{ env.UPDATE_JSON }}
-          commit_message: "Bump ${{ env.UPDATE_JSON }} to ${{ github.ref_name }}"
+          commit_message: "Bump ${{ env.UPDATE_JSON }} to ${{ github.event.release.tag_name }}"
           #github_token: ${{ steps.app.outputs.token }}
           app_id: 146360
           app_private_key: ${{ secrets.APP_PRIVATE_KEY }}
@@ -247,8 +259,8 @@ jobs:
       #    GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #  run: |
       #    echo -e "\n## Cleanup Release\n\n" >> "$GITHUB_STEP_SUMMARY"
-      #    echo -e "Deleting Release and Tag: \`${{ github.ref_name }}\`\n\n" >> "$GITHUB_STEP_SUMMARY"
-      #    if gh release delete "${{ github.ref_name }}" --repo "${{ github.repository }}" --cleanup-tag;then
+      #    echo -e "Deleting Release and Tag: \`${{ github.event.release.tag_name }}\`\n\n" >> "$GITHUB_STEP_SUMMARY"
+      #    if gh release delete "${{ github.event.release.tag_name }}" --repo "${{ github.repository }}" --cleanup-tag;then
       #      echo -e "✅ Cleanup Success.\n" >> "$GITHUB_STEP_SUMMARY"
       #    else
       #      echo -e "⛔ Cleanup Failed!\n" >> "$GITHUB_STEP_SUMMARY"

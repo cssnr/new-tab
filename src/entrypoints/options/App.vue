@@ -12,6 +12,7 @@ import CopySupport from '@/components/CopySupport.vue'
 import PageHeader from '@/components/PageHeader.vue'
 import HorizontalRule from '@/components/HorizontalRule.vue'
 import UseBackground from '@/components/UseBackground.vue'
+import UppyDrop from '@/components/UppyDrop.vue'
 
 useTitle(i18n.t('options.title'))
 </script>
@@ -46,6 +47,7 @@ useTitle(i18n.t('options.title'))
   <ToastAlerts />
   <BackToTop />
   <UseBackground />
+  <UppyDrop />
 </template>
 
 <style scoped>

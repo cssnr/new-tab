@@ -69,17 +69,19 @@ async function onStartup() {
 
 function onChanged(changes: Record<string, chrome.storage.StorageChange>) {
   console.log('%c background/index.ts - onChanged:', 'color: Cyan', changes)
-  const oldValue = changes.options?.oldValue as Options | undefined
-  const newValue = changes.options?.newValue as Options | undefined
-  if (!oldValue || !newValue) return console.log('missing oldValue or newValue')
+  if (changes?.options) {
+    const oldValue = changes.options?.oldValue as Options | undefined
+    const newValue = changes.options?.newValue as Options | undefined
+    if (!oldValue || !newValue) return console.log('missing oldValue or newValue')
 
-  if (oldValue?.contextMenu !== newValue.contextMenu) {
-    if (newValue.contextMenu) {
-      console.log('%c Enabled contextMenu...', 'color: Lime')
-      createContextMenus()
-    } else {
-      console.log('%c Disabled contextMenu...', 'color: OrangeRed')
-      chrome.contextMenus?.removeAll().catch(console.warn)
+    if (oldValue?.contextMenu !== newValue.contextMenu) {
+      if (newValue.contextMenu) {
+        console.log('%c Enabled contextMenu...', 'color: Lime')
+        createContextMenus()
+      } else {
+        console.log('%c Disabled contextMenu...', 'color: OrangeRed')
+        chrome.contextMenus?.removeAll().catch(console.warn)
+      }
     }
   }
 }

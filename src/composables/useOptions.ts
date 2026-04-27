@@ -2,19 +2,18 @@ import { type Ref, onMounted, onUnmounted, ref } from 'vue'
 import { type Options, getOptions } from '@/utils/options.ts'
 
 export function useOptions(): Ref<Options> {
-  // console.debug('%cLOADED composables/useOptions.ts', 'color: Orange')
+  // console.debug('%cLOADED useOptions.ts', 'color: Coral')
   const options = ref<Options>({} as Options)
 
-  const onChanged = async (changes: any) => {
+  const onChanged = async (changes: Record<string, any>) => {
     // console.log('useOptions - onChanged:', changes)
-    if ('options' in changes) {
-      // console.log('%c composables/useOptions.ts - CHANGE DETECTED ', 'color: Yellow')
-      options.value = await getOptions()
-    }
+    if (!changes?.options?.newValue) return
+    // console.log('%c useOptions.ts - options updated ', 'color: Yellow')
+    options.value = changes.options.newValue as Options
   }
 
   if (!chrome.storage.sync.onChanged.hasListener(onChanged)) {
-    // console.debug('%c useOptions - addListener', 'color: Lime')
+    // console.debug('%c useOptions - addListener', 'color: SpringGreen')
     chrome.storage.sync.onChanged.addListener(onChanged)
   }
 

@@ -8,3 +8,5 @@ declare module '*.svg?component' {
   const component: DefineComponent
   export default component
 }
+
+type RadioBackground = 'bgNone' | 'bgPicture' | 'bgVideo' | 'bgLocal'

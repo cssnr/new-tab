@@ -20,7 +20,7 @@ export const defaultOptions = {
   folderId: '',
   numBookmarks: 12,
 
-  radioBackground: 'bgPicture' as 'bgNone' | 'bgPicture' | 'bgVideo',
+  radioBackground: 'bgPicture' as RadioBackground,
   pictureURL: 'https://picsum.photos/1920/1080',
   videoURL: '',
 }

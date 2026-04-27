@@ -1,26 +1,29 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, useTemplateRef } from 'vue'
 import { useWallpaperDB } from '@/composables/useWallpaperDB.ts'
 import { Modal } from 'bootstrap'
 import Uppy from '@uppy/core'
 import DropTarget from '@uppy/drop-target'
 import '@uppy/core/css/style.css'
 import '@uppy/drop-target/css/style.css'
+import { showToast } from '@/composables/useToast.ts'
 
 const { addImage } = useWallpaperDB()
 
-const imageModal = ref<HTMLElement | null>(null)
+const mediaType = ref<'image' | 'video' | ''>('')
+
+const imageModal = useTemplateRef('imageModal')
 let modal: Modal
 
-const imageSrc = ref<string | null>(null)
+const mediaSrc = ref<string>('')
 let uppy: Uppy
 
 async function processUpload() {
-  console.log('processUpload:', imageSrc.value)
-  if (!imageSrc.value) return
-  // const imageBlob = base64ToBlob(imageSrc.value)
-  const base64Response = await fetch(imageSrc.value)
-  console.log('base64Response:', base64Response)
+  console.log('processUpload:', mediaSrc.value)
+  if (!mediaSrc.value) return
+  // const imageBlob = base64ToBlob(mediaSrc.value)
+  const base64Response = await fetch(mediaSrc.value)
+  // console.log('base64Response:', base64Response)
   const blob = await base64Response.blob()
   console.log('blob:', blob)
   await addImage(blob)
@@ -43,7 +46,7 @@ onMounted(() => {
   modal = new Modal(imageModal.value!)
 
   imageModal.value!.addEventListener('hidden.bs.modal', () => {
-    // imageSrc.value = null
+    // mediaSrc.value = null
     uppy.clear()
   })
 
@@ -54,8 +57,18 @@ onMounted(() => {
   uppy.on('file-added', (file) => {
     const reader = new FileReader()
     reader.onload = (e: ProgressEvent<FileReader>) => {
-      console.log('File contents:', e.target?.result)
-      imageSrc.value = e.target?.result as string
+      const result = e.target?.result as string
+      console.log('reader.onload - result:', result)
+      if (!result) return
+      if (result.startsWith('data:image')) {
+        mediaType.value = 'image'
+      } else if (result.startsWith('data:video')) {
+        mediaType.value = 'video'
+      } else {
+        return showToast('Unsupported Media Type', 'danger')
+      }
+      // mediaType.value = result.startsWith('image') ? 'image' : 'video'
+      mediaSrc.value = result
       modal.show()
     }
     reader.readAsDataURL(file.data as File)
@@ -79,12 +92,27 @@ onUnmounted(() => {
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="image-modal-label">Upload Image</h1>
+          <h1 id="image-modal-label" class="modal-title fs-5 text-capitalize">Upload {{ mediaType }}</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" tabindex="-1"></button>
         </div>
         <div class="modal-body text-center p-2">
           <div class="modal-body text-center p-2">
-            <img v-if="imageSrc" :src="imageSrc" alt="Image" class="modal-img img-fluid img-thumbnail" />
+            <!--TODO: Add re-usable image/video component...-->
+            <img
+              v-if="mediaSrc && mediaType === 'image'"
+              :src="mediaSrc"
+              alt="Image"
+              class="modal-img img-fluid img-thumbnail"
+            />
+            <video
+              class="modal-img img-fluid img-thumbnail"
+              v-if="mediaSrc && mediaType === 'video'"
+              :src="mediaSrc"
+              playsinline
+              autoplay
+              muted
+              loop
+            ></video>
           </div>
         </div>
         <div class="modal-footer p-2">
