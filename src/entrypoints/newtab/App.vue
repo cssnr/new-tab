@@ -62,7 +62,10 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyboard))
   <main class="flex-grow-1 overflow-auto d-flex flex-column p-1">
     <div :style="{ height: options.githubToken ? `${options.reposHeight}% !important` : '100% !important' }">
       <!--TODO: Cleanup all these nested classes and move to GitHubRepos-->
-      <div class="d-flex align-items-center justify-content-center w-100 h-100 pb-3 pe-3">
+      <div
+        class="d-flex align-items-center justify-content-center w-100 h-100 pe-3"
+        :class="options.githubToken ? 'pb-1' : 'pb-3'"
+      >
         <div class="glass-outline rounded rounded-3 my-0 mx-auto w-100 h-100 d-flex flex-column">
           <div class="p-1 flex-grow-1 overflow-auto">
             <GitHubRepos v-if="options.githubUrl" ref="githubSearch" :github-url="options.githubUrl" />
@@ -72,7 +75,11 @@ onUnmounted(() => window.removeEventListener('keydown', handleKeyboard))
     </div>
 
     <!--TODO: Implement scrolling on table and remove overflow-auto-->
-    <div v-if="options.githubToken" class="d-flex flex-column overflow-hidden" style="height: 65% !important">
+    <div
+      v-if="options.githubToken"
+      class="d-flex flex-column overflow-hidden"
+      :style="`height: ${100 - options.reposHeight}% !important`"
+    >
       <GitHubIssues />
     </div>
   </main>
