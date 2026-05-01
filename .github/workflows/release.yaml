@@ -121,7 +121,7 @@ jobs:
         run: |
           cat > amo-metadata.json << EOF
           {"version": {"release_notes": {
-            "en-US": "Full Release Notes: $RELEASE_NOTES",
+            "en-US": "Full Release Notes: $RELEASE_NOTES"
           }}}
           EOF
 
