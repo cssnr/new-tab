@@ -178,7 +178,7 @@ onMounted(async () => {
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" tabindex="-1"></button>
           </div>
           <div class="modal-body text-center p-2">
-            <p class="mb-1">Confirm deleting your shitty {{ selectedImage?.data.type }}?</p>
+            <p class="mb-1">Confirm deleting your {{ selectedImage?.data.type }}?</p>
             <!--TODO: Add re-usable image/video component...-->
             <img
               v-if="selectedImage && selectedImage.data.type.startsWith('image')"
