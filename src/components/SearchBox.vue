@@ -2,7 +2,8 @@
 import { ref, onMounted, onUnmounted, useTemplateRef } from 'vue'
 import { openUrl } from '@/utils/index.ts'
 import { showToast } from '@/composables/useToast.ts'
-import { Search, deleteSearch, getSearches, addSearch, updateSearch } from '@/utils/searches.ts'
+import { deleteSearch, getSearches, addSearch, updateSearch } from '@/utils/searches.ts'
+import type { Search } from '@/utils/searches.ts'
 import claudeIcon from '@/assets/icons/claude.svg?raw'
 import SearchModal from '@/components/SearchModal.vue'
 

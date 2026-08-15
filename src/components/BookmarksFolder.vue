@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Ref, computed, inject } from 'vue'
+import { computed, inject } from 'vue'
+import type { Ref } from 'vue'
 import { openUrl } from '@/utils/index.ts'
 
 const props = withDefaults(

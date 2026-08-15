@@ -75,7 +75,7 @@ jobs:
         run: |
           ls -lAh .
           stat "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-chrome.zip"
-          yq -e '.version | test("${{ github.event.release.tag_name }}")' chrome-mv3/manifest.json
+          jq -e '.version == "${{ github.event.release.tag_name }}"' chrome-mv3/manifest.json
           echo "::group::chrome-mv3"
           ls -lAh chrome-mv3
           echo "::endgroup::"
@@ -129,7 +129,7 @@ jobs:
         run: |
           ls -lAh .
           stat "${{ env.PACKAGE_NAME }}-${{ github.event.release.tag_name }}-sources.zip"
-          yq -e '.version | test("${{ github.event.release.tag_name }}")' firefox-mv3/manifest.json
+          jq -e '.version == "${{ github.event.release.tag_name }}"' firefox-mv3/manifest.json
           echo "::group::firefox-mv3"
           ls -lAh firefox-mv3
           echo "::endgroup::"
@@ -140,7 +140,9 @@ jobs:
           jq . amo-metadata.json
           echo "::endgroup::"
 
+      # NOTE: This installs web-ext using npx
       - name: "Sign Mozilla Addon"
+        # https://extensionworkshop.com/documentation/develop/web-ext-command-reference/#web-ext-sign
         env:
           FIREFOX_API_KEY: ${{ secrets.FIREFOX_API_KEY }}
           FIREFOX_API_SECRET: ${{ secrets.FIREFOX_API_SECRET }}
@@ -187,7 +189,7 @@ jobs:
 
     steps:
       - name: "Checkout"
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           persist-credentials: false
 
@@ -208,7 +210,7 @@ jobs:
 
       - name: "Commit Action"
         id: commit
-        uses: suzuki-shunsuke/commit-action@f12e2d628a4ab72dcefe7890ae07e8dbf1e201b9 # v0.1.1
+        uses: suzuki-shunsuke/commit-action@v1.0.0
         with:
           branch: master
           #repository: ${{ github.repository }}
@@ -252,7 +254,7 @@ jobs:
 
       - name: "Send Notification"
         if: ${{ !cancelled() }}
-        uses: sarisia/actions-status-discord@eb045afee445dc055c18d3d90bd0f244fd062708 # v1.16.0
+        uses: sarisia/actions-status-discord@v1
         with:
           webhook: ${{ secrets.DISCORD_WEBHOOK }}
           description: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

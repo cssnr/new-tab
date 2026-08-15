@@ -79,6 +79,15 @@ function onInput(e: InputEvent) {
   filterTerm.value = target.value
 }
 
+function clearFilter() {
+  filterTerm.value = ''
+  const input = inputRef.value
+  if (input) {
+    input.value = ''
+    input.focus()
+  }
+}
+
 function onSubmit() {
   if (filteredRepos.value.length === 0) {
     showToast('No repositories found.', 'warning')
@@ -101,8 +110,9 @@ async function updateRepos() {
         .sort((a, b) => (b.lastVisitTime ?? 0) - (a.lastVisitTime ?? 0))
         .reduce<string[]>((acc, { url }) => {
           const match = url?.match(GITHUB_REPO_REGEX)
-          if (match && !GITHUB_RESERVED_PATHS.has(match[1])) {
-            acc.push(`${props.githubUrl}/${match[1]}/${match[2]}`)
+          const [, owner, repo] = match ?? []
+          if (owner && repo && !GITHUB_RESERVED_PATHS.has(owner)) {
+            acc.push(`${props.githubUrl}/${owner}/${repo}`)
           }
           return acc
         }, []),
@@ -141,17 +151,31 @@ function parseRepo(url: string) {
     <form @submit.prevent="onSubmit">
       <label for="image-input" class="visually-hidden">Image Link</label>
       <div class="input-group">
-        <input
-          ref="inputRef"
-          @input="onInput"
-          id="image-input"
-          type="text"
-          class="form-control form-control-sm"
-          :placeholder="filterMsg"
-          :aria-label="filterMsg"
-          autocomplete="off"
-          required
-        />
+        <div class="clear-wrap">
+          <input
+            ref="inputRef"
+            @input="onInput"
+            @keydown.esc="clearFilter"
+            id="image-input"
+            type="text"
+            class="form-control form-control-sm"
+            :placeholder="filterMsg"
+            :aria-label="filterMsg"
+            autocomplete="off"
+            required
+          />
+          <button
+            v-if="filterTerm"
+            type="button"
+            class="clear-input-btn"
+            tabindex="-1"
+            aria-label="Clear filter"
+            title="Clear filter"
+            @click="clearFilter"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
         <button class="btn btn-success" type="submit" tabindex="-1">Go</button>
       </div>
     </form>
@@ -164,3 +188,44 @@ function parseRepo(url: string) {
     </div>
   </div>
 </template>
+
+<style scoped>
+.clear-wrap {
+  position: relative;
+  display: flex;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+}
+
+.clear-wrap > .form-control {
+  padding-right: 2rem;
+  border-end-start-radius: 0;
+  border-end-end-radius: 0;
+  margin-right: calc(-1 * var(--bs-border-width, 1px));
+}
+
+.clear-wrap > .form-control:focus {
+  z-index: 5;
+}
+
+.clear-input-btn {
+  position: absolute;
+  top: 50%;
+  right: 0.25rem;
+  transform: translateY(-50%);
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem 0.5rem;
+  line-height: 1;
+  color: var(--bs-secondary-color);
+  background: transparent;
+  border: 0;
+}
+
+.clear-input-btn:hover {
+  color: var(--bs-body-color);
+}
+</style>

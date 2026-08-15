@@ -63,6 +63,7 @@ function deleteClick(e: Event) {
   if (!target.dataset.idx) return
   const image = imagesRef.value[Number.parseInt(target.dataset.idx)]
   console.log('image:', image)
+  if (!image) return
   selectedImage.value = image
   Modal.getOrCreateInstance(deleteModalEl.value!).show()
 }
