@@ -1,4 +1,5 @@
-import { openDB, IDBPDatabase } from 'idb'
+import { openDB } from 'idb'
+import type { IDBPDatabase } from 'idb'
 
 const DB_NAME = 'wallpaper'
 const DB_VERSION = 1

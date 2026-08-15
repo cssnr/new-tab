@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { Search } from '@/utils/searches.ts'
+import type { Search } from '@/utils/searches.ts'
 import { Modal } from 'bootstrap'
 
 const isEditing = ref(false)
