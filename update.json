@@ -5,6 +5,10 @@
         {
           "version": "0.0.8",
           "update_link": "https://github.com/cssnr/new-tab/releases/download/0.0.8/new-tab-firefox.xpi"
+        },
+        {
+          "version": "0.0.9",
+          "update_link": "https://github.com/cssnr/new-tab/releases/download/0.0.9/new-tab-firefox.xpi"
         }
       ]
     }
